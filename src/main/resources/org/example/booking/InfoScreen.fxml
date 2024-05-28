@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.booking.InfoScreenController">
    <children>
       <Label layoutX="923.0" layoutY="33.0" text="Dato:">
          <font>
@@ -39,7 +35,7 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Button fx:id="bookLokaleButton" layoutX="1051.0" layoutY="718.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="121.0" text="Book lokale">
+      <Button fx:id="bookLokaleButton" layoutX="1051.0" layoutY="718.0" mnemonicParsing="false" onAction="#handleBookLokaleButton" prefHeight="53.0" prefWidth="121.0" text="Book lokale">
          <font>
             <Font size="14.0" />
          </font>
