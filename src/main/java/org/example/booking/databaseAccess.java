@@ -1,22 +1,24 @@
 package org.example.booking;
 
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class databaseAccess {    public static Connection getConnection() throws SQLException {
-    Connection connection = null;
-    try {
-        // Load the JDBC driver class
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+public class databaseAccess {
+
+    //Connection details
+    private static final String URL ="jdbc:sqlserver://localhost:1433;databaseName= dbBookingSystem; ";
+    private static final String USERNAME = "sa";
+    private static final String PASSWORD = "1234";
+
+
+    public static Connection getConnection() throws SQLException {
 
         // Establish the connection
-        connection = DriverManager.getConnection("JDBC", "USERNAME", "PASSWORD");
+        Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         System.out.println("Connected to the database.");
-    } catch (ClassNotFoundException e) {
-        System.out.println("Error: SQL Server JDBC Driver not found.");
-        e.printStackTrace();
+
+        return connection;
     }
-    return connection;
-}
 }

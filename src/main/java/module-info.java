@@ -11,6 +11,7 @@ module org.example.booking {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires java.desktop;
 
     opens org.example.booking to javafx.fxml;
     exports org.example.booking;
