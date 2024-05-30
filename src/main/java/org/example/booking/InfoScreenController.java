@@ -1,17 +1,18 @@
 package org.example.booking;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import java.sql.Statement;
-
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
-
 import java.awt.*;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+
+
 
 public class InfoScreenController {
 
@@ -29,42 +30,76 @@ public class InfoScreenController {
         mainlaunch.showAvailabilityScreen();
     }
 
+    @FXML
+    private TableView<Room> displayBookingsTable;
 
-}
+    @FXML
+    private TableColumn<Room, Integer> roomIDColumn;
+
+    @FXML
+    private TableColumn<Room, String> roomNameColumn;
+
+    @FXML
+    private TableColumn<Room, Integer> capacityColumn;
+
+    @FXML
+    private TableColumn<Room, String> facilitiesColumn;
+
+    @FXML
+    private TableColumn<Room, Integer> roomUsageColumn;
+
+
+    public void initialize() {
+        roomIDColumn.setCellValueFactory(new PropertyValueFactory<>("roomID"));
+        roomNameColumn.setCellValueFactory(new PropertyValueFactory<>("roomName"));
+        capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));
+        facilitiesColumn.setCellValueFactory(new PropertyValueFactory<>("facilities"));
+        roomUsageColumn.setCellValueFactory(new PropertyValueFactory<>("roomUsage"));
+
+        populateTableView();
+    }
+
+    private void populateTableView(){
+        try{
+            showRooms();
+            displayBookingsTable.getItems().clear();
+            displayBookingsTable.getItems().addAll(rooms);
+        }catch(Exception e){
+            System.out.println("error");
+        }
+    }
+
 
 
     private List<Room> rooms = new ArrayList<>();
-    public void showRooms(){
+    public void showRooms() {
         Connection connection = null;
-        Statement statement = null;
+        CallableStatement callableStatement = null;
         ResultSet resultSet = null;
 
         try {
             connection = databaseAccess.getConnection();
-            statement = connection.createStatement();
-
-
-
-            String query = "SELECT * FROM tblRoom";
-            resultSet = statement.executeQuery(query);
-
-
+            String query = "{call spGetAllRooms}";
+            callableStatement = connection.prepareCall(query);
+            resultSet = callableStatement.executeQuery();
 
             while (resultSet.next()) {
-                int roomID = resultSet.getInt("fldRoomID");
-                String roomName = resultSet.getString("fldRoomName");
-                int capacity = resultSet.getInt("fldCapacity");
+                int RoomID = resultSet.getInt("fldRoomID");
+                String RoomName = resultSet.getString("fldRoomName");
+                int Capacity = resultSet.getInt("fldCapacity");
                 String facilities = resultSet.getString("fldFacilities");
+                int RoomUsage = resultSet.getInt("fldRoomUsage");
 
-
-                Room room = new Room(roomID, roomName, capacity, facilities);
+                Room room = new Room(RoomID, RoomName, Capacity, facilities, RoomUsage);
                 rooms.add(room);
             }
-        }catch(SQLException e){
-            System.out.println("error");
-
+        } catch (SQLException e) {
+            System.out.println("Error:");
         }
     }
+
+
+
 
 
     public List<Room>getRooms(){

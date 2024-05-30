@@ -15,7 +15,7 @@ public class Main {
 
 
 //test
-    /*
+
     public static void main(String[] args) {
         InfoScreenController controller = new InfoScreenController();
         controller.showRooms();
@@ -24,10 +24,10 @@ public class Main {
             System.out.println("Room Name: " + room.getRoomName());
             System.out.println("Capacity: " + room.getCapacity());
             System.out.println("Facilities: " + room.getFacilities());
-            System.out.println();
+            System.out.println("RoomUsage:"+room.getRoomUsage());
         }
     }
-     */
+
 
 
 
