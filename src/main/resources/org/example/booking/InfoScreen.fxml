@@ -11,24 +11,17 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="dateDisplayLabel" layoutX="976.0" layoutY="33.0" prefHeight="27.0" prefWidth="92.0" text="26.05.2024">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
       <AnchorPane layoutY="85.0" prefHeight="612.0" prefWidth="1200.0">
-         <children>
-            <TableView fx:id="displayBookingsTable" layoutY="-14.0" prefHeight="644.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <columns>
-                <TableColumn fx:id="lokaleTableC" prefWidth="91.0" text="Lokale" />
-                <TableColumn fx:id="fejlTableC" prefWidth="40.0" text="Fejl" />
-                  <TableColumn fx:id="titelTableC" prefWidth="425.0" text="Titel" />
-                  <TableColumn fx:id="ansvarligTableC" prefWidth="327.0" text="Ansvarlig" />
-                  <TableColumn fx:id="tidspunktTableC" prefWidth="124.0" text="Tidspunkt" />
-                  <TableColumn fx:id="forplejningTableC" prefWidth="84.0" text="Forplejning" />
-              </columns>
-            </TableView>
-         </children>
+         <TableView fx:id="displayBookingsTable" layoutY="-14.0" prefHeight="644.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columns>
+               <TableColumn fx:id="lokaleTableC" prefWidth="91.0" text="Lokale" />
+               <TableColumn fx:id="fejlTableC" prefWidth="40.0" text="Fejl" />
+               <TableColumn fx:id="titelTableC" prefWidth="425.0" text="Titel" />
+               <TableColumn fx:id="ansvarligTableC" prefWidth="327.0" text="Ansvarlig" />
+               <TableColumn fx:id="tidspunktTableC" prefWidth="124.0" text="Tidspunkt" />
+               <TableColumn fx:id="forplejningTableC" prefWidth="84.0" text="Forplejning" />
+            </columns>
+         </TableView>
       </AnchorPane>
       <Label layoutX="440.0" layoutY="20.0" prefHeight="53.0" prefWidth="320.0" text="Informationsskærm ">
          <font>
