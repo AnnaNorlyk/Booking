@@ -59,54 +59,21 @@ public class InfoScreenController {
         populateTableView();
     }
 
-    private void populateTableView(){
-        try{
-            showRooms();
+    private void populateTableView() {
+        BookingDAO bookdao = new BookingDAO();
+        try {
+
+            bookdao.getThoseRooms();
+            List<Room> rooms = bookdao.getRooms();
             displayBookingsTable.getItems().clear();
             displayBookingsTable.getItems().addAll(rooms);
-        }catch(Exception e){
-            System.out.println("error");
+
+        } catch (Exception e) {
+            System.out.println("error" );
         }
+
+
     }
-
-
-
-    private List<Room> rooms = new ArrayList<>();
-    public void showRooms() {
-        Connection connection = null;
-        CallableStatement callableStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = databaseAccess.getConnection();
-            String query = "{call spGetAllRooms}";
-            callableStatement = connection.prepareCall(query);
-            resultSet = callableStatement.executeQuery();
-
-            while (resultSet.next()) {
-                int RoomID = resultSet.getInt("fldRoomID");
-                String RoomName = resultSet.getString("fldRoomName");
-                int Capacity = resultSet.getInt("fldCapacity");
-                String facilities = resultSet.getString("fldFacilities");
-                int RoomUsage = resultSet.getInt("fldRoomUsage");
-
-                Room room = new Room(RoomID, RoomName, Capacity, facilities, RoomUsage);
-                rooms.add(room);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error:");
-        }
-    }
-
-
-
-
-
-    public List<Room>getRooms(){
-        return rooms;
-    }
-
-
 }
 
 

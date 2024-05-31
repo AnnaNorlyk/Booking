@@ -3,7 +3,7 @@ package org.example.booking;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class Main {
+public class Main extends MainLaunch {
 
     public static void initializeconnetion(){
         try{
@@ -12,22 +12,6 @@ public class Main {
             throw new RuntimeException(e);
         }
     }
-
-
-//test
-
-    public static void main(String[] args) {
-        InfoScreenController controller = new InfoScreenController();
-        controller.showRooms();
-        for (Room room : controller.getRooms()) {
-            System.out.println("Room ID: " + room.getRoomID());
-            System.out.println("Room Name: " + room.getRoomName());
-            System.out.println("Capacity: " + room.getCapacity());
-            System.out.println("Facilities: " + room.getFacilities());
-            System.out.println("RoomUsage:"+room.getRoomUsage());
-        }
-    }
-
 
 
 
