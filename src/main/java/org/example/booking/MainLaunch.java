@@ -1,6 +1,5 @@
 package org.example.booking;
 
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +17,7 @@ public class MainLaunch extends Application {
 
     public void showInfoScreen() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("InfoScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/booking/InfoScreen.fxml"));
             Parent root = loader.load();
             InfoScreenController controller = loader.getController();
             controller.setMainApplication(this);
@@ -32,7 +31,7 @@ public class MainLaunch extends Application {
 
     public void showAvailabilityScreen() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("AvailabilityScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/booking/AvailabilityScreen.fxml"));
             Parent root = loader.load();
             AvailabilityController controller = loader.getController();
             controller.setMainApplication(this);
@@ -40,13 +39,13 @@ public class MainLaunch extends Application {
             primaryStage.setTitle("Check Availability");
             primaryStage.show();
         } catch (Exception e) {
-            System.out.println("Error loading availability screen: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     public void showBookingDetails() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("BookingDetails.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/booking/BookingDetails.fxml"));
             Parent root = loader.load();
             BookingDetailsController controller = loader.getController();
             controller.setMainApplication(this);

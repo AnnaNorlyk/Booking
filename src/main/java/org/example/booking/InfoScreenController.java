@@ -3,8 +3,6 @@ package org.example.booking;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 
-import java.awt.*;
-
 public class InfoScreenController {
 
     private MainLaunch mainlaunch;
