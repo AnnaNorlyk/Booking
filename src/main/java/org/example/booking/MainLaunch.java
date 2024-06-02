@@ -25,7 +25,7 @@ public class MainLaunch extends Application {
             primaryStage.setTitle("Infoscreen");
             primaryStage.show();
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
