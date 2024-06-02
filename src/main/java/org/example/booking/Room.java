@@ -1,52 +1,64 @@
 package org.example.booking;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 public class Room {
-    private final StringProperty roomName;
-    private final StringProperty facilities;
-    private final StringProperty availableTimes;
+    private int roomID;
+    private String roomName;
+    private int capacity;
+    private String facilities;
+    private int RoomUsage;
 
-    public Room(String roomName, String facilities, String availableTimes) {
-        this.roomName = new SimpleStringProperty(roomName);
-        this.facilities = new SimpleStringProperty(facilities);
-        this.availableTimes = new SimpleStringProperty(availableTimes);
+
+    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage) {
+        this.roomID = roomID;
+        this.roomName = roomName;
+        this.capacity = capacity;
+        this.facilities = facilities;
+        this.RoomUsage = roomUsage;
     }
+
+    //getters and setters
+    public int getRoomID() {
+
+        return roomID;
+    }
+
+
+    public void setRoomID(int roomID) {
+
+        this.roomID = roomID;
+    }
+
 
     public String getRoomName() {
-        return roomName.get();
-    }
 
-    public void setRoomName(String value) {
-        roomName.set(value);
-    }
-
-    public StringProperty roomNameProperty() {
         return roomName;
     }
 
+
+    public void setRoomName(String roomName) {
+
+        this.roomName = roomName;
+    }
+
+
+    public int getCapacity() {
+
+        return capacity;
+    }
+
+
+    public void setCapacity(int capacity) {
+
+        this.capacity = capacity;
+    }
+
+
     public String getFacilities() {
-        return facilities.get();
-    }
 
-    public void setFacilities(String value) {
-        facilities.set(value);
-    }
-
-    public StringProperty facilitiesProperty() {
         return facilities;
     }
 
-    public String getAvailableTimes() {
-        return availableTimes.get();
-    }
-
-    public void setAvailableTimes(String value) {
-        availableTimes.set(value);
-    }
-
-    public StringProperty availableTimesProperty() {
-        return availableTimes;
+    public int getRoomUsage(){
+        return RoomUsage;
     }
 }
