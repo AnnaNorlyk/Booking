@@ -1,11 +1,10 @@
 package org.example.booking;
 
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class databaseAccess {
+public class DatabaseConnection {
     private static final String JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=dbBookingSystem; encrypt=false";
     private static final String USERNAME = "sa";
     private static final String PASSWORD = "1234";

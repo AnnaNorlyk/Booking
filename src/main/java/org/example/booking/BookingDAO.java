@@ -1,12 +1,8 @@
 package org.example.booking;
 
-import org.example.booking.Room;
-import org.example.booking.databaseAccess;
-
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +11,12 @@ public class BookingDAO {
     private List<Room> rooms = new ArrayList<>();
 
 
-
         public void addRoom(String roomName, int capacity, String facilities, int roomUsage) {
             Connection connection = null;
             CallableStatement callableStatement = null;
 
             try {
-                connection = databaseAccess.getConnection();
+                connection = DatabaseConnection.getConnection();
                 String query = "{call spAddRoom(?, ?, ?, ?)}";// might need to look into how we would make the roomusage tick up( im not even sure we have to use the field in this method)
                 callableStatement = connection.prepareCall(query);
                 callableStatement.setString(1, roomName);
@@ -44,8 +39,8 @@ public class BookingDAO {
         ResultSet resultSet = null;
 
         try {
-            connection = databaseAccess.getConnection();
-            String query = "{call spGetAllRooms}"; // the storedprocedure needs to be changed so only non-booked rooms will show
+            connection = DatabaseConnection.getConnection();
+            String query = "{call spGetAllRooms}"; // the storedprocedure needs to be changed so only non-booked rooms will show (???no Only BOOKED rooms should show)
             callableStatement = connection.prepareCall(query);
             resultSet = callableStatement.executeQuery();
 
@@ -60,7 +55,7 @@ public class BookingDAO {
                 rooms.add(room);
             }
         } catch (SQLException e) {
-            System.out.println("Error:");
+            System.out.println("Error:" + e.getMessage());
         }
     }
 
@@ -68,5 +63,43 @@ public class BookingDAO {
         return rooms;
     }
 
+    public List<Room> getRoomAvailability(int roomId) {
+        List<Room> rooms = new ArrayList<>();
+        LocalDate today = LocalDate.now(); // Converts LocalDate into Date
+        String sql = "{CALL GetAvailableTimeSlots(?, ?)}"; // Calling stored procedure
 
+        // Formatter to convert SQL Time to "hour:minute" format
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+
+            stmt.setDate(1, Date.valueOf(today));
+            stmt.setInt(2, roomId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                // Retrieve and format start and end times
+                Time startTimeSql = rs.getTime("fldStartTime");
+                Time endTimeSql = rs.getTime("fldEndTime");
+
+                // Convert SQL Time to LocalTime to then format
+                String startTime = timeFormatter.format(startTimeSql.toLocalTime());
+                String endTime = timeFormatter.format(endTimeSql.toLocalTime());
+                String timeRange = startTime + " - " + endTime;
+
+                // Create new Room object and add to the list
+                Room room = new Room(
+                        rs.getString("fldRoomName"),
+                        rs.getString("fldFacilities"),
+                        timeRange
+                );
+                rooms.add(room);
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return rooms;
+    }
 }

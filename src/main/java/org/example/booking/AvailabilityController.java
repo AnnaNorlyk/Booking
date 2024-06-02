@@ -7,6 +7,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.LocalDate;
 
@@ -16,7 +17,7 @@ public class AvailabilityController {
 
     @FXML
     private Button returnButton;
-    private MainLaunch mainLaunch; // Use consistent naming
+    private MainLaunch mainLaunch;
     @FXML
     private TableView<Room> availabilitiesTable;
     @FXML
@@ -32,23 +33,19 @@ public class AvailabilityController {
     public void initialize() {
         bookingDAO = new BookingDAO();  // Initialize BookingDAO
 
-        lokaleColumn.setCellValueFactory(cellData -> cellData.getValue().roomNameProperty());
-        faciliteterColumn.setCellValueFactory(cellData -> cellData.getValue().facilitiesProperty());
-        ledigeTiderColumn.setCellValueFactory(cellData -> cellData.getValue().availableTimesProperty());
+        // Assuming Room class getters for the properties match the names below
+        lokaleColumn.setCellValueFactory(new PropertyValueFactory<>("roomName"));
+        faciliteterColumn.setCellValueFactory(new PropertyValueFactory<>("facilities"));
+        ledigeTiderColumn.setCellValueFactory(new PropertyValueFactory<>("timeRange"));
 
         loadRoomAvailabilities(); // Call the method to load room availabilities
     }
 
     private void loadRoomAvailabilities() {
-        try {
-            // Provide valid parameters for date and roomId
-            ObservableList<Room> roomList = FXCollections.observableArrayList(
-                    bookingDAO.getRoomAvailability(now().toString(), 1)
-            );
-            availabilitiesTable.setItems(roomList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ObservableList<Room> roomList = FXCollections.observableArrayList(
+                bookingDAO.getRoomAvailability(1) // Temp ID for testing
+        );
+        availabilitiesTable.setItems(roomList);
     }
 
 
