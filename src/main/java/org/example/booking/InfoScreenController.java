@@ -14,12 +14,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 
 
+
 public class InfoScreenController {
 
     private MainLaunch mainlaunch;
 
-    @FXML
-    private Label dateDisplayLabel;
+
 
     public void setMainApplication(MainLaunch mainLaunch) {
         this.mainlaunch = mainLaunch;
