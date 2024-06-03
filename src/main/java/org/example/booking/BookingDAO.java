@@ -63,10 +63,10 @@ public class BookingDAO {
         return rooms;
     }
 
-    public List<Room> getRoomAvailability(int roomId) {
+    public List<Room> getAllAvailableTimeSlots() {
         List<Room> rooms = new ArrayList<>();
         LocalDate today = LocalDate.now(); // Converts LocalDate into Date
-        String sql = "{CALL GetAvailableTimeSlots(?, ?)}"; // Calling stored procedure
+        String sql = "{CALL GetAllAvailableTimeSlots(?)}"; // Calling stored procedure
 
         // Formatter to convert SQL Time to "hour:minute" format
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -74,8 +74,8 @@ public class BookingDAO {
         try (Connection connection = DatabaseConnection.getConnection();
              CallableStatement stmt = connection.prepareCall(sql)) {
 
+            //Sets date to the current day
             stmt.setDate(1, Date.valueOf(today));
-            stmt.setInt(2, roomId);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {

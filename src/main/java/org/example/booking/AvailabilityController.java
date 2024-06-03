@@ -9,10 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.time.LocalDate;
-
-import static java.time.LocalDate.*;
-
 public class AvailabilityController {
 
     @FXML
@@ -21,11 +17,11 @@ public class AvailabilityController {
     @FXML
     private TableView<Room> availabilitiesTable;
     @FXML
-    private TableColumn<Room, String> lokaleColumn;
+    private TableColumn<Room, String> roomColumn;
     @FXML
-    private TableColumn<Room, String> faciliteterColumn;
+    private TableColumn<Room, String> facilitiesColumn;
     @FXML
-    private TableColumn<Room, String> ledigeTiderColumn;
+    private TableColumn<Room, String> availableTimeSlotsColumn;
 
     private BookingDAO bookingDAO;
 
@@ -33,17 +29,17 @@ public class AvailabilityController {
     public void initialize() {
         bookingDAO = new BookingDAO();  // Initialize BookingDAO
 
-        // Assuming Room class getters for the properties match the names below
-        lokaleColumn.setCellValueFactory(new PropertyValueFactory<>("roomName"));
-        faciliteterColumn.setCellValueFactory(new PropertyValueFactory<>("facilities"));
-        ledigeTiderColumn.setCellValueFactory(new PropertyValueFactory<>("timeRange"));
+        //Accesses cells for setting info
+        roomColumn.setCellValueFactory(new PropertyValueFactory<>("roomName"));
+        facilitiesColumn.setCellValueFactory(new PropertyValueFactory<>("facilities"));
+        availableTimeSlotsColumn.setCellValueFactory(new PropertyValueFactory<>("timeRange"));
 
         loadRoomAvailabilities(); // Call the method to load room availabilities
     }
 
     private void loadRoomAvailabilities() {
         ObservableList<Room> roomList = FXCollections.observableArrayList(
-                bookingDAO.getRoomAvailability(1) // Temp ID for testing
+                bookingDAO.getAllAvailableTimeSlots()
         );
         availabilitiesTable.setItems(roomList);
     }
