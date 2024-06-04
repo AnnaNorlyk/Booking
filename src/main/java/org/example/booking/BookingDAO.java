@@ -40,7 +40,7 @@ public class BookingDAO {
 
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "{call spGetAllRooms}"; // the storedprocedure needs to be changed so only non-booked rooms will show (???no Only BOOKED rooms should show)
+            String query = "{call spGetAllRooms}"; // the storedprocedure needs to be changed so only non-booked rooms will show
             callableStatement = connection.prepareCall(query);
             resultSet = callableStatement.executeQuery();
 
@@ -62,6 +62,7 @@ public class BookingDAO {
     public List<Room> getRooms() {
         return rooms;
     }
+
 
     public List<Room> getAllAvailableTimeSlots() {
         List<Room> rooms = new ArrayList<>();
@@ -97,9 +98,10 @@ public class BookingDAO {
                 rooms.add(room);
             }
         } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error in BookingDAO: " + e.getMessage());
+
         }
         return rooms;
     }
+
 }

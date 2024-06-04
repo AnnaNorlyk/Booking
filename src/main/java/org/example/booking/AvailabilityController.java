@@ -54,8 +54,6 @@ public class AvailabilityController {
         try {
             if (mainLaunch != null) {
                 mainLaunch.showInfoScreen();
-            } else {
-                System.out.println("Main application context not set.");
             }
         } catch (Exception e) {
             System.out.println("Error while returning to Infoscreen: " + e.getMessage());

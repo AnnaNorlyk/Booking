@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.booking.BookingDetailsController" >
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.booking.BookingDetailsController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Tilbage" />
+      <Button fx:id="returnButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Tilbage" />
       <Label layoutX="487.0" layoutY="32.0" prefWidth="100.0" text="Lokale: ">
          <font>
             <Font size="24.0" />
@@ -28,31 +22,31 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="552.0" layoutY="81.0" prefHeight="27.0" prefWidth="108.0" text="00.00 - 00.00">
+      <Label fx:id="availableLabel" layoutX="552.0" layoutY="81.0" prefHeight="27.0" prefWidth="108.0" text="00.00 - 00.00">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TableView layoutX="921.0" layoutY="60.0" prefHeight="200.0" prefWidth="240.0">
+      <TableView fx:id="facilitiesTable" layoutX="921.0" layoutY="60.0" prefHeight="200.0" prefWidth="240.0">
         <columns>
           <TableColumn prefWidth="239.0" text="Faciliteter" />
         </columns>
       </TableView>
-      <TableView layoutX="921.0" layoutY="277.0" prefHeight="55.0" prefWidth="240.0">
+      <TableView fx:id="capacityTable" layoutX="921.0" layoutY="277.0" prefHeight="55.0" prefWidth="240.0">
         <columns>
           <TableColumn prefWidth="239.0" text="Kapacitet" />
         </columns>
       </TableView>
       <TableView layoutX="921.0" layoutY="349.0" prefHeight="386.0" prefWidth="240.0">
         <columns>
-          <TableColumn prefWidth="239.0" text="Fejl" />
+          <TableColumn fx:id="errorsTable" prefWidth="239.0" text="Fejl" />
         </columns>
       </TableView>
-      <TextField layoutX="484.0" layoutY="158.0" prefHeight="27.0" prefWidth="178.0" />
-      <ChoiceBox layoutX="513.0" layoutY="363.0" prefHeight="25.0" prefWidth="149.0" />
-      <ChoiceBox layoutX="513.0" layoutY="320.0" prefHeight="25.0" prefWidth="149.0" />
-      <TextField layoutX="484.0" layoutY="210.0" prefHeight="27.0" prefWidth="178.0" />
-      <TextField layoutX="484.0" layoutY="260.0" prefHeight="27.0" prefWidth="178.0" />
+      <TextField fx:id="uniloginField" layoutX="484.0" layoutY="158.0" prefHeight="27.0" prefWidth="178.0" />
+      <ChoiceBox fx:id="endTimeMenu" layoutX="513.0" layoutY="363.0" prefHeight="25.0" prefWidth="149.0" />
+      <ChoiceBox fx:id="startTimeMenu" layoutX="513.0" layoutY="320.0" prefHeight="25.0" prefWidth="149.0" />
+      <TextField fx:id="nameField" layoutX="484.0" layoutY="210.0" prefHeight="27.0" prefWidth="178.0" />
+      <TextField fx:id="titleField" layoutX="484.0" layoutY="260.0" prefHeight="27.0" prefWidth="178.0" />
       <Label layoutX="414.0" layoutY="162.0" text="Unilogin">
          <font>
             <Font size="14.0" />
@@ -83,6 +77,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="414.0" layoutY="458.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="254.0" text="Book lokale" />
+      <Button fx:id="bookRoomButton" layoutX="414.0" layoutY="458.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="254.0" text="Book lokale" />
    </children>
 </AnchorPane>

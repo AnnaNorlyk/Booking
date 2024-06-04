@@ -14,18 +14,10 @@ public class DatabaseConnection {
     // gets connection to database
     public static Connection getConnection() throws SQLException {
 
-        try {
-            System.out.println("JDBC Driver loaded successfully");
-            // Load the JDBC driver class
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        //Establish connection
+        connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        System.out.println("Connected to database");
 
-            // Establish the connection
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
-            System.out.println("Connected to the database.");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Error:" + e.getMessage());
-        }
         return connection;
     }
 }

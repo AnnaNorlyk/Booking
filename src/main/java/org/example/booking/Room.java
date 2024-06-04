@@ -67,14 +67,14 @@ public class Room {
         return facilities;
     }
 
+
+
     public int getRoomUsage(){
         return RoomUsage;
     }
 
 
-    public String getTimeRange() {
-    return timeRange;
-    }
+    public String getTimeRange() {return timeRange;}
 
     public void setTimeRange(String timeRange) { // Setter for timeRange
     this.timeRange = timeRange;
