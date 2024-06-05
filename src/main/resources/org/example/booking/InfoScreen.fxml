@@ -16,8 +16,8 @@
             <TableView fx:id="displayBookingsTable" layoutY="-14.0" prefHeight="644.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columns>
                 <TableColumn fx:id="roomNameColumn" prefWidth="91.0" text="Lokale" />
-                <TableColumn fx:id="ReportErrorColumn" prefWidth="40.0" text="Fejl" />
-                  <TableColumn fx:id="titleColumn" prefWidth="425.0" text="Titel" />
+                <TableColumn fx:id="ReportErrorColumn" prefWidth="148.0" text="Fejl" />
+                  <TableColumn fx:id="titleColumn" prefWidth="317.0" text="Titel" />
                   <TableColumn fx:id="responsibleColumn" prefWidth="327.0" text="Ansvarlig" />
                   <TableColumn fx:id="timeRangeColumn" prefWidth="124.0" text="Tidspunkt" />
                   <TableColumn fx:id="refreshmentsColumn" prefWidth="84.0" text="Forplejning" />

@@ -1,5 +1,8 @@
+
 package org.example.booking;
 import java.util.List;
+
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TableColumn;
@@ -18,19 +21,19 @@ public class InfoScreenController {
     private TableView<Room> displayBookingsTable;
 
     @FXML
-    private TableColumn<Room, Integer> roomIDColumn;
-
+    private TableColumn<Room, String> ReportErrorColumn;
     @FXML
     private TableColumn<Room, String> roomNameColumn;
-
+    @FXML
+    private TableColumn<Room, Integer> refreshmentsColumn;
     @FXML
     private TableColumn<Room, Integer> capacityColumn;
-
     @FXML
-    private TableColumn<Room, String> facilitiesColumn;
-
+    private TableColumn<Room, String> titleColumn;
     @FXML
-    private TableColumn<Room, Integer> roomUsageColumn;
+    private TableColumn<Room, String> responsibleColumn;
+    @FXML
+    private TableColumn<Room, String> timeRangeColumn;
 
     public void setMainApplication(MainLaunch mainLaunch) {
         this.mainlaunch = mainLaunch;
@@ -42,31 +45,30 @@ public class InfoScreenController {
     }
 
 
-//    public void initialize() {
-//        roomIDColumn.setCellValueFactory(new PropertyValueFactory<>("roomID"));
-//        roomNameColumn.setCellValueFactory(new PropertyValueFactory<>("roomName"));
-//        capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));
-//        facilitiesColumn.setCellValueFactory(new PropertyValueFactory<>("facilities"));
-//        roomUsageColumn.setCellValueFactory(new PropertyValueFactory<>("roomUsage"));
-//
-//        populateTableView();
-//    }
+    public void initialize() {
+        roomNameColumn.setCellValueFactory(new PropertyValueFactory<>("roomName"));
+        refreshmentsColumn.setCellValueFactory(new PropertyValueFactory<>("refreshments"));
+        timeRangeColumn.setCellValueFactory(new PropertyValueFactory<>("timeRange"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("roomTitle"));
+        ReportErrorColumn.setCellValueFactory(new PropertyValueFactory<>("issueDescription")); // Update this line
+        responsibleColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        populateTableView();
+    }
 
-//    private void populateTableView() {
-//        BookingDAO bookdao = new BookingDAO();
-//        try {
-//
-//            bookdao.getThoseRooms();
-//            List<Room> rooms = bookdao.getRooms();
-//            displayBookingsTable.getItems().clear();
-//            displayBookingsTable.getItems().addAll(rooms);
-//
-//        } catch (Exception e) {
-//            System.out.println("error" );
-//        }
-//
-//
-//    }
+    private void populateTableView() {
+        BookingDAO bookdao = new BookingDAO();
+        try {
+            bookdao.getThoseRooms();
+            List<Room> rooms = bookdao.getRooms();
+
+            // Clear the table view and add the updated list of rooms
+            displayBookingsTable.getItems().clear();
+            displayBookingsTable.getItems().addAll(rooms);
+
+            // Refresh the TableView
+            displayBookingsTable.refresh();
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+    }
 }
-
-

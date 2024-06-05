@@ -1,3 +1,4 @@
+
 package org.example.booking;
 
 public class Room {
@@ -7,15 +8,23 @@ public class Room {
     private String facilities;
     private int RoomUsage;
     private String timeRange;
+    private String issueDescription;
+    private String roomTitle;
+    private int refreshments;
+    private int userID;
+    private String userName;
 
     //Constructor for general room information
-    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage) {
+    public Room(int roomID, String roomName, String title, int capacity, String facilities, String issueDescription,String userName) {
         this.roomID = roomID;
         this.roomName = roomName;
         this.capacity = capacity;
         this.facilities = facilities;
-        this.RoomUsage = roomUsage;
+        this.issueDescription = issueDescription;
+        this.roomTitle = title;
+        this.userName = userName;
     }
+
 
     //Constructor for displaying available times in Availablity
     public Room(String roomName, String facilities, String timeRange) {
@@ -67,16 +76,79 @@ public class Room {
         return facilities;
     }
 
-    public int getRoomUsage(){
+    public int getRoomUsage() {
+
         return RoomUsage;
     }
 
 
     public String getTimeRange() {
-    return timeRange;
+
+        return timeRange;
     }
 
     public void setTimeRange(String timeRange) { // Setter for timeRange
-    this.timeRange = timeRange;
+
+        this.timeRange = timeRange;
+    }
+
+
+    public String getIssueDescription() {
+
+        return issueDescription;
+    }
+
+    public void setIssueDescription(String issueDescription) {
+
+        this.issueDescription = issueDescription;
+    }
+
+    public void setTitle(String title) {
+
+        this.roomTitle = title;
+    }
+
+    public void setRefreshments(int refreshments) {
+
+        this.refreshments = refreshments;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public String getTitle() {
+
+        return roomTitle;
+    }
+
+    public int getRefreshments() {
+
+        return refreshments;
+    }
+
+    public int getUserID() {
+
+        return userID;
+    }
+
+    public String getRoomTitle() {
+
+        return roomTitle;
+    }
+
+    public void setRoomTitle(String roomTitle) {
+        this.roomTitle = roomTitle;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
+
+
+
