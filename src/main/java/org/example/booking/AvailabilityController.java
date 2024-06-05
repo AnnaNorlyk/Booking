@@ -4,10 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 
 public class AvailabilityController {
 
@@ -35,6 +37,26 @@ public class AvailabilityController {
         availableTimeSlotsColumn.setCellValueFactory(new PropertyValueFactory<>("timeRange"));
 
         loadRoomAvailabilities(); // Call the method to load room availabilities
+
+        //Sets up TableRow as a listener to handle clicks
+        availabilitiesTable.setRowFactory((TableView<Room> _) -> {
+            TableRow<Room> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                    Room roomSelected = row.getItem();
+                    handleRowClick(roomSelected);
+                }
+            });
+            return row;
+        });
+    }
+
+    private void handleRowClick(Room roomSelected) {
+        if (mainLaunch !=null) {
+            mainLaunch.showBookingDetails();
+        } else {
+            System.out.println("Error on handleRowClick");
+        }
     }
 
     private void loadRoomAvailabilities() {

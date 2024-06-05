@@ -6,23 +6,23 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.booking.BookingDetailsController">
    <children>
-      <Button fx:id="returnButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Tilbage" />
-      <Label layoutX="487.0" layoutY="32.0" prefWidth="100.0" text="Lokale: ">
+      <Button fx:id="returnButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="35.0" prefWidth="100.0" text="Tilbage" />
+      <Label layoutX="419.0" layoutY="60.0" prefHeight="35.0" prefWidth="85.0" text="Lokale: ">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="selectedRoomLabel" layoutX="621.0" layoutY="32.0" text="101">
+      <Label fx:id="selectedRoomLabel" layoutX="623.0" layoutY="60.0" text="101">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="487.0" layoutY="81.0" prefHeight="27.0" prefWidth="53.0" text="Ledig: ">
+      <Label layoutX="422.0" layoutY="109.0" prefHeight="27.0" prefWidth="53.0" text="Ledig: ">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="availableLabel" layoutX="552.0" layoutY="81.0" prefHeight="27.0" prefWidth="108.0" text="00.00 - 00.00">
+      <Label fx:id="availableTimeRangeLabel" layoutX="554.0" layoutY="109.0" prefHeight="27.0" prefWidth="108.0" text="00.00 - 00.00">
          <font>
             <Font size="18.0" />
          </font>
@@ -42,41 +42,21 @@
           <TableColumn fx:id="errorsTable" prefWidth="239.0" text="Fejl" />
         </columns>
       </TableView>
-      <TextField fx:id="uniloginField" layoutX="484.0" layoutY="158.0" prefHeight="27.0" prefWidth="178.0" />
-      <ChoiceBox fx:id="endTimeMenu" layoutX="513.0" layoutY="363.0" prefHeight="25.0" prefWidth="149.0" />
-      <ChoiceBox fx:id="startTimeMenu" layoutX="513.0" layoutY="320.0" prefHeight="25.0" prefWidth="149.0" />
-      <TextField fx:id="nameField" layoutX="484.0" layoutY="210.0" prefHeight="27.0" prefWidth="178.0" />
-      <TextField fx:id="titleField" layoutX="484.0" layoutY="260.0" prefHeight="27.0" prefWidth="178.0" />
-      <Label layoutX="414.0" layoutY="162.0" text="Unilogin">
+      <TextField fx:id="uniloginField" layoutX="422.0" layoutY="173.0" prefHeight="27.0" prefWidth="240.0" promptText="Unilogin" />
+      <ChoiceBox fx:id="endTimeMenu" layoutX="513.0" layoutY="374.0" prefHeight="25.0" prefWidth="149.0" />
+      <ChoiceBox fx:id="startTimeMenu" layoutX="513.0" layoutY="331.0" prefHeight="25.0" prefWidth="149.0" />
+      <TextField fx:id="nameField" layoutX="422.0" layoutY="225.0" prefHeight="27.0" prefWidth="240.0" promptText="Navn" />
+      <TextField fx:id="titleField" layoutX="422.0" layoutY="277.0" prefHeight="27.0" prefWidth="240.0" promptText="Mødetitel" />
+      <Label layoutX="434.0" layoutY="334.0" text="Book fra:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="426.0" layoutY="215.0" text="Navn">
+      <Label layoutX="468.0" layoutY="377.0" text="Til: ">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="429.0" layoutY="265.0" text="Titel">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="427.0" layoutY="323.0" text="Book">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="468.0" layoutY="366.0" text="Til: ">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="467.0" layoutY="323.0" text="Fra:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Button fx:id="bookRoomButton" layoutX="414.0" layoutY="458.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="254.0" text="Book lokale" />
+      <Button fx:id="bookRoomButton" layoutX="415.0" layoutY="432.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="254.0" text="Book lokale" />
    </children>
 </AnchorPane>
