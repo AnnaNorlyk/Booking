@@ -40,7 +40,7 @@ public class BookingDAO {
 
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "{call spGetAllRooms}"; // the storedprocedure needs to be changed so only non-booked rooms will show (???no Only BOOKED rooms should show)
+            String query = "{call spGetAllBookrooms}"; // the storedprocedure needs to be changed so only non-booked rooms will show (???no Only BOOKED rooms should show)
             callableStatement = connection.prepareCall(query);
             resultSet = callableStatement.executeQuery();
 
@@ -71,38 +71,34 @@ public class BookingDAO {
         return rooms;
     }
 
-    public List<Room> getRoomAvailability(int roomId) {
+    public List<Room> getAllAvailableTimeSlots() {
         List<Room> rooms = new ArrayList<>();
-        LocalDate today = LocalDate.now(); // Converts LocalDate into Date
-        String sql = "{CALL GetAllAvailableTimeSlots(?, ?)}"; // Calling stored procedure
+        LocalDate today = LocalDate.now();
+        String sql = "{CALL GetAllAvailableTimeSlots(?)}"; // Calling stored procedure
 
-        // Formatter to convert SQL Time to "hour:minute" format
+        //Sets formatter to hh:mm instead of hh:mm:ss
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
         try (Connection connection = DatabaseConnection.getConnection();
              CallableStatement stmt = connection.prepareCall(sql)) {
 
-            // Sets date to the current day and room ID
             stmt.setDate(1, Date.valueOf(today));
-            stmt.setInt(2, roomId);
             ResultSet rs = stmt.executeQuery();
 
+            //Retrieves info base don parameter
             while (rs.next()) {
-                // Retrieve and format start and end times
+                int roomID = rs.getInt("fldRoomID");
+                String roomName = rs.getString("fldRoomName");
+                String facilities = rs.getString("fldFacilities");
                 Time startTimeSql = rs.getTime("fldStartTime");
                 Time endTimeSql = rs.getTime("fldEndTime");
 
-                // Convert SQL Time to LocalTime to then format
                 String startTime = timeFormatter.format(startTimeSql.toLocalTime());
                 String endTime = timeFormatter.format(endTimeSql.toLocalTime());
                 String timeRange = startTime + " - " + endTime;
 
-                // Create new Room object and add to the list
-                Room room = new Room(
-                        rs.getString("fldRoomName"),
-                        rs.getString("fldFacilities"),
-                        timeRange
-                );
+                //Creates Room object and adds to list
+                Room room = new Room(roomID, roomName, facilities, timeRange);
                 rooms.add(room);
             }
         } catch (SQLException e) {
@@ -112,9 +108,7 @@ public class BookingDAO {
     }
 
 
-
-
-
+    //Method will retrieve timeslots available for room by name
     public List<String> getRoomTimeSlots(String roomName) {
             List<String> timeSlots = new ArrayList<>();
             LocalDate today = LocalDate.now();
@@ -146,6 +140,7 @@ public class BookingDAO {
     return timeSlots;
     }
 
+    //Loops through list of room names until it finds the right one
     public Room getRoomByName(String roomName) {
         for (Room room : rooms) {
             if (room.getRoomName().equals(roomName)) {
