@@ -79,4 +79,8 @@ public class Room {
     public void setTimeRange(String timeRange) { // Setter for timeRange
     this.timeRange = timeRange;
     }
+
+    public void getErrors() {
+
+    }
 }

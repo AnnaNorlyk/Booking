@@ -53,7 +53,7 @@ public class AvailabilityController {
 
     private void handleRowClick(Room roomSelected) {
         if (mainLaunch !=null) {
-            mainLaunch.showBookingDetails();
+            mainLaunch.showBookingDetails(roomSelected);
         } else {
             System.out.println("Error on handleRowClick");
         }

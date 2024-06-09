@@ -7,41 +7,11 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.booking.BookingDetailsController">
    <children>
       <Button fx:id="returnButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="35.0" prefWidth="100.0" text="Tilbage" />
-      <Label layoutX="419.0" layoutY="60.0" prefHeight="35.0" prefWidth="85.0" text="Lokale: ">
+      <Label fx:id="selectedRoomLabel" layoutX="422.0" layoutY="95.0" prefHeight="35.0" prefWidth="149.0" text="Lokale">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="selectedRoomLabel" layoutX="623.0" layoutY="60.0" text="101">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="422.0" layoutY="109.0" prefHeight="27.0" prefWidth="53.0" text="Ledig: ">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="availableTimeRangeLabel" layoutX="554.0" layoutY="109.0" prefHeight="27.0" prefWidth="108.0" text="00.00 - 00.00">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TableView fx:id="facilitiesTable" layoutX="921.0" layoutY="60.0" prefHeight="200.0" prefWidth="240.0">
-        <columns>
-          <TableColumn prefWidth="239.0" text="Faciliteter" />
-        </columns>
-      </TableView>
-      <TableView fx:id="capacityTable" layoutX="921.0" layoutY="277.0" prefHeight="55.0" prefWidth="240.0">
-        <columns>
-          <TableColumn prefWidth="239.0" text="Kapacitet" />
-        </columns>
-      </TableView>
-      <TableView layoutX="921.0" layoutY="349.0" prefHeight="386.0" prefWidth="240.0">
-        <columns>
-          <TableColumn fx:id="errorsTable" prefWidth="239.0" text="Fejl" />
-        </columns>
-      </TableView>
       <TextField fx:id="uniloginField" layoutX="422.0" layoutY="173.0" prefHeight="27.0" prefWidth="240.0" promptText="Unilogin" />
       <ChoiceBox fx:id="endTimeMenu" layoutX="513.0" layoutY="374.0" prefHeight="25.0" prefWidth="149.0" />
       <ChoiceBox fx:id="startTimeMenu" layoutX="513.0" layoutY="331.0" prefHeight="25.0" prefWidth="149.0" />
@@ -57,6 +27,12 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="bookRoomButton" layoutX="415.0" layoutY="432.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="254.0" text="Book lokale" />
+      <Button fx:id="bookRoomButton" layoutX="422.0" layoutY="432.0" mnemonicParsing="false" onAction="#handleBookRoomButton" prefHeight="27.0" prefWidth="240.0" text="Book lokale" />
+      <ListView fx:id="facilitiesListView" layoutX="835.0" layoutY="127.0" prefHeight="133.0" prefWidth="306.0" />
+      <ListView fx:id="capacityListView" layoutX="835.0" layoutY="318.0" prefHeight="46.0" prefWidth="306.0" />
+      <ListView fx:id="errorsListView" layoutX="836.0" layoutY="432.0" prefHeight="283.0" prefWidth="306.0" />
+      <Label layoutX="961.0" layoutY="104.0" text="Faciliteter" />
+      <Label layoutX="965.0" layoutY="296.0" text="Kapacitet" />
+      <Label layoutX="961.0" layoutY="408.0" text="Meldte fejl" />
    </children>
 </AnchorPane>

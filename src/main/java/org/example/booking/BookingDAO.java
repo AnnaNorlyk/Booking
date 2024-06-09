@@ -31,8 +31,6 @@ public class BookingDAO {
         }
 
 
-
-
     public void getThoseRooms() {
         Connection connection = null;
         CallableStatement callableStatement = null;
@@ -102,6 +100,85 @@ public class BookingDAO {
 
         }
         return rooms;
+    }
+
+    public List<String> getRoomTimeSlots(String roomName) {
+            List<String> timeSlots = new ArrayList<>();
+            LocalDate today = LocalDate.now();
+            String sql = "{CALL GetAllAvailableTimeSlots(?)}";
+
+            //Sets timeformatter
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+
+            //Sets date parameter for stored procedure
+            stmt.setDate(1, Date.valueOf(today));
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String selectedRoom = rs.getString("fldRoomName");
+                if (selectedRoom.equals(roomName)) {
+                    Time SQLStartTime = rs.getTime("fldStartTime");
+
+                    //Formats the time retrieved into hh:mm format and adds to the timeSlots list
+                    String startTime = timeFormatter.format(SQLStartTime.toLocalTime());
+                    timeSlots.add(startTime);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in BookingDAO: " + e.getMessage());
+        }
+    return timeSlots;
+    }
+
+    public Room getRoomByName(String roomName) {
+        for (Room room : rooms) {
+            if (room.getRoomName().equals(roomName)) {
+                return room;
+            }
+        }
+        return null;
+    }
+
+    public User getUserDetailsByUnilogin(String unilogin) throws SQLException {
+        String sql = "{CALL GetUserDetailsByUnilogin(?, ?, ?, ?)}";
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+            //Input
+            stmt.setString(1, unilogin);
+
+            //Output
+            stmt.registerOutParameter(2, Types.INTEGER);
+            stmt.registerOutParameter(3, Types.VARCHAR);
+            stmt.registerOutParameter(4, Types.VARCHAR);
+            stmt.execute();
+
+            //Retrieve the output
+            int userID = stmt.getInt(2);
+            String userName = stmt.getString(3);
+            String retrievedUnilogin = stmt.getString(4);
+
+            return new User(userID, userName, retrievedUnilogin);
+        }
+    }
+
+    public void addBooking(int roomID, int userID, java.util.Date date, Time startTime, Time endTime, String title) throws SQLException {
+        String sql = "{CALL AddBooking(?, ?, ?, ?, ?, ?, ?)}";
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+
+            // Sets input parameters for stored procedure
+            stmt.setInt(1, roomID);
+            stmt.setInt(2, userID);
+            stmt.setDate(3, new Date(date.getTime()));
+            stmt.setTime(4, startTime);
+            stmt.setTime(5, endTime);
+            stmt.setString(6, title);
+            stmt.setInt(7, 0); // is set to 0 as refreshments will not be available for ad-hoc bookings
+            stmt.executeUpdate();
+        }
     }
 
 }
