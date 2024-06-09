@@ -14,7 +14,7 @@ public class Room {
     private String userName;
 
     //Constructor for general room information
-    public Room(int roomID, String roomName, String title, int capacity, String facilities, String issueDescription,String userName) {
+    public Room(int roomID, String roomName, String title, int capacity, String facilities, String issueDescription, String userName) {
         this.roomID = roomID;
         this.roomName = roomName;
         this.capacity = capacity;
@@ -81,7 +81,10 @@ public class Room {
     }
 
 
-    public String getTimeRange() {return timeRange;}
+    public String getTimeRange() {
+
+        return timeRange;
+    }
 
     public void setTimeRange(String timeRange) { // Setter for timeRange
 
@@ -91,8 +94,6 @@ public class Room {
     public void getErrors() {
 
     }
-}
-
 
     public String getIssueDescription() {
 
@@ -147,9 +148,12 @@ public class Room {
     }
 
     public void setUserName(String userName) {
+
         this.userName = userName;
     }
+
 }
+
 
 
 
