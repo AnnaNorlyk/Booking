@@ -1,4 +1,3 @@
-
 package org.example.booking;
 
 public class Room {
@@ -82,15 +81,17 @@ public class Room {
     }
 
 
-    public String getTimeRange() {
-
-        return timeRange;
-    }
+    public String getTimeRange() {return timeRange;}
 
     public void setTimeRange(String timeRange) { // Setter for timeRange
 
         this.timeRange = timeRange;
     }
+
+    public void getErrors() {
+
+    }
+}
 
 
     public String getIssueDescription() {
