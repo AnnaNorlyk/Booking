@@ -59,7 +59,7 @@ public class BookingDAO {
                 String issueDescription = resultSet.getString("fldDescription");
                 String userName = resultSet.getString("flduserName");
 
-                Room room = new Room(RoomID, RoomName, Capacity, facilities, RoomUsage);
+                Room room = new Room(roomID, roomName, capacity, facilities, roomUsage, timeRange, title, refreshments, userID, userName, issueDescription);
                 rooms.add(room);
             }
         } catch (SQLException e) {
@@ -71,14 +71,10 @@ public class BookingDAO {
         return rooms;
     }
 
-
-
     public List<Room> getRoomAvailability(int roomId) {
-
-    public List<Room> getAllAvailableTimeSlots() {
         List<Room> rooms = new ArrayList<>();
         LocalDate today = LocalDate.now(); // Converts LocalDate into Date
-        String sql = "{CALL GetAllAvailableTimeSlots(?)}"; // Calling stored procedure
+        String sql = "{CALL GetAllAvailableTimeSlots(?, ?)}"; // Calling stored procedure
 
         // Formatter to convert SQL Time to "hour:minute" format
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -86,7 +82,7 @@ public class BookingDAO {
         try (Connection connection = DatabaseConnection.getConnection();
              CallableStatement stmt = connection.prepareCall(sql)) {
 
-            //Sets date to the current day
+            // Sets date to the current day and room ID
             stmt.setDate(1, Date.valueOf(today));
             stmt.setInt(2, roomId);
             ResultSet rs = stmt.executeQuery();
@@ -111,7 +107,6 @@ public class BookingDAO {
             }
         } catch (SQLException e) {
             System.err.println("Error in BookingDAO: " + e.getMessage());
-
         }
         return rooms;
     }
