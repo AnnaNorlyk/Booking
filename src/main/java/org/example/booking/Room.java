@@ -30,7 +30,7 @@ public class Room {
 
 
     //Constructor for displaying available times in Availablity
-    public Room(String roomName, String facilities, String timeRange) {
+    public Room(int roomID, String roomName, String facilities, String timeRange) {
         this.roomName = roomName;
         this.facilities = facilities;
         this.timeRange = timeRange;
