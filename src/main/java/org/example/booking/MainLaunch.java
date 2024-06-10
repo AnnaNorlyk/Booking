@@ -57,6 +57,23 @@ public class MainLaunch extends Application {
         }
     }
 
+
+    public void showErrorPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/booking/ErrorPage.fxml"));
+            Parent root = loader.load();
+            ErrorPageController controller = loader.getController();
+            controller.setMainApplication(this);
+            primaryStage.setScene(new Scene(root, 1200, 800));
+            primaryStage.setTitle("Report Issue");
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
     public static void main(String[] args) {
         launch(args);
     }

@@ -12,6 +12,56 @@ public class BookingDAO {
     private List<Room> rooms = new ArrayList<>();
 
 
+    public int getUserIdByUsername(String username) {
+        int userId = -1;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "SELECT fldUserID FROM tblUser WHERE fldUsername = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                userId = resultSet.getInt("fldUserID");
+            }
+        } catch (SQLException e) {
+            System.err.println("error");
+        }
+        return userId;
+    }
+
+    // adds issue
+    public void addIssue(int issueID,String roomName, String description, String unilogin) {
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement callableStatement = connection.prepareCall("{call spInsertErrorReport(?, ?, ?)}")) {
+
+            // Get the userID corresponding to the provided unilogin
+            int userId = getUserIdByUsername(unilogin);
+
+            // Set the parameters for the stored procedure
+            callableStatement.setInt(1, issueID);
+            callableStatement.setString(1, roomName);
+            callableStatement.setString(2, description);
+            callableStatement.setString(3, unilogin);
+
+            // Execute the stored procedure
+            callableStatement.executeUpdate();
+            System.out.println("Issue reported successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error adding issue: " + e.getMessage());
+        }
+    }
+
+
+
+
+
+
+    // adds a room
     public void addRoom(String roomName, int capacity, String facilities, int roomUsage) {
         Connection connection = null;
         CallableStatement callableStatement = null;
@@ -33,7 +83,7 @@ public class BookingDAO {
 
 
 
-
+    // gets the info for the infoscreen "rooms"
     public void getThoseRooms() {
         try (Connection connection = DatabaseConnection.getConnection();
              CallableStatement callableStatement = connection.prepareCall("{call spGetAllBookrooms}");
@@ -59,7 +109,7 @@ public class BookingDAO {
                 room.setTimeRange(timeRange);
                 room.setRefreshments(refreshments);
                 room.setUserID(userID);
-                room.setIssueDescription(issueDescription); // Set issue description
+                room.setIssueDescription(issueDescription);
 
                 // adds the room to the list
                 rooms.add(room);
