@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.booking.InfoScreenController">
    <children>
-      <Label layoutX="923.0" layoutY="33.0" text="Dato:">
+      <Label fx:id="DateDisplay" layoutX="923.0" layoutY="33.0" text="Dato:">
          <font>
             <Font size="18.0" />
          </font>
@@ -35,7 +35,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="fejlmeldButton" layoutX="23.0" layoutY="718.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="121.0" text="Fejlmeld Lokale">
+      <Button fx:id="fejlmeldButton" layoutX="23.0" layoutY="718.0" mnemonicParsing="false" onAction="#handleFejlmeldingsButton" prefHeight="53.0" prefWidth="121.0" text="Fejlmeld Lokale">
          <font>
             <Font size="14.0" />
          </font>
