@@ -43,15 +43,19 @@ public class MainLaunch extends Application {
         }
     }
 
-    public void showBookingDetails() {
+    public void showBookingDetails(Room roomSelected) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/booking/BookingDetails.fxml"));
             Parent root = loader.load();
+
             BookingDetailsController controller = loader.getController();
             controller.setMainApplication(this);
+            controller.setSelectedRoom(roomSelected);
+
             primaryStage.setScene(new Scene(root, 1200, 800));
             primaryStage.setTitle("Booking Details");
             primaryStage.show();
+
         } catch (Exception e) {
             System.out.println("Error loading booking details screen: " + e.getMessage());
         }

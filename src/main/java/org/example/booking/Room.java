@@ -1,4 +1,3 @@
-
 package org.example.booking;
 
 public class Room {
@@ -6,7 +5,7 @@ public class Room {
     private String roomName;
     private int capacity;
     private String facilities;
-    private int RoomUsage;
+    private int roomUsage;
     private String timeRange;
     private String issueDescription;
     private String roomTitle;
@@ -14,20 +13,24 @@ public class Room {
     private int userID;
     private String userName;
 
-    //Constructor for general room information
-    public Room(int roomID, String roomName, String title, int capacity, String facilities, String issueDescription,String userName) {
+    // Constructor for general room information
+    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage, String timeRange, String roomTitle, int refreshments, int userID, String userName, String issueDescription) {
         this.roomID = roomID;
         this.roomName = roomName;
         this.capacity = capacity;
         this.facilities = facilities;
-        this.issueDescription = issueDescription;
-        this.roomTitle = title;
+        this.roomUsage = roomUsage;
+        this.timeRange = timeRange;
+        this.roomTitle = roomTitle;
+        this.refreshments = refreshments;
+        this.userID = userID;
         this.userName = userName;
+        this.issueDescription = issueDescription;
     }
 
 
     //Constructor for displaying available times in Availablity
-    public Room(String roomName, String facilities, String timeRange) {
+    public Room(int roomID, String roomName, String facilities, String timeRange) {
         this.roomName = roomName;
         this.facilities = facilities;
         this.timeRange = timeRange;
@@ -78,7 +81,7 @@ public class Room {
 
     public int getRoomUsage() {
 
-        return RoomUsage;
+        return roomUsage;
     }
 
 
@@ -92,6 +95,9 @@ public class Room {
         this.timeRange = timeRange;
     }
 
+    public void getErrors() {
+
+    }
 
     public String getIssueDescription() {
 
@@ -146,9 +152,12 @@ public class Room {
     }
 
     public void setUserName(String userName) {
+
         this.userName = userName;
     }
+
 }
+
 
 
 
