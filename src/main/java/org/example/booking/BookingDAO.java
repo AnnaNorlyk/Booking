@@ -31,8 +31,6 @@ public class BookingDAO {
     }
 
 
-
-
     public void getThoseRooms() {
         Connection connection = null;
         CallableStatement callableStatement = null;
@@ -140,16 +138,6 @@ public class BookingDAO {
     return timeSlots;
     }
 
-    //Loops through list of room names until it finds the right one
-    public Room getRoomByName(String roomName) {
-        for (Room room : rooms) {
-            if (room.getRoomName().equals(roomName)) {
-                return room;
-            }
-        }
-        return null;
-    }
-
     public User getUserDetailsByUnilogin(String unilogin) throws SQLException {
         String sql = "{CALL GetUserDetailsByUnilogin(?, ?, ?, ?)}";
         try (Connection connection = DatabaseConnection.getConnection();
@@ -186,6 +174,40 @@ public class BookingDAO {
             stmt.setString(6, title);
             stmt.setInt(7, 0); // is set to 0 as refreshments will not be available for ad-hoc bookings
             stmt.executeUpdate();
+
+            // Increment room usage count
+            incrementRoomUsage(roomID);
+        }
+    }
+
+    private void incrementRoomUsage(int roomID) throws SQLException {
+        String sql = "{CALL IncrementRoomUsage(?)}";
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+            stmt.setInt(1, roomID);
+            stmt.executeUpdate();
+        }
+    }
+
+
+    public Room getRoomByName(String roomName) throws SQLException {
+        String sql = "{CALL GetRoomByName(?)}";
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+            stmt.setString(1, roomName);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int roomID = rs.getInt("fldRoomID");
+                String name = rs.getString("fldRoomName");
+                int capacity = rs.getInt("fldCapacity");
+                String facilities = rs.getString("fldFacilities");
+                int roomUsage = rs.getInt("fldRoomUsage");
+
+                return new Room(roomID, name, capacity, facilities, roomUsage, "", "", 0, 0, "", "");
+            } else {
+                return null;
+            }
         }
     }
 

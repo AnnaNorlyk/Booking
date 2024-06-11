@@ -50,6 +50,7 @@ public class BookingDetailsController {
     private ListView<String> errorsListView;
 
     public void setMainApplication(MainLaunch mainLaunch) {
+
         this.mainLaunch = mainLaunch;
     }
 
@@ -59,6 +60,7 @@ public class BookingDetailsController {
         bookingDAO.getThoseRooms(); // Load rooms from database
         initializeLists();
 
+        //Sets a listener
         startTimeMenu.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 populateEndTime(newValue);
@@ -173,26 +175,35 @@ public class BookingDetailsController {
             }
 
             // Ensure we have the selected room's details
-            Room room = bookingDAO.getRoomByName(selectedRoom.getRoomName());
+            Room room;
+            try {
+                room = bookingDAO.getRoomByName(selectedRoom.getRoomName());
+            } catch (SQLException e) {
+                System.out.println("Database Error! Error retrieving room details: " + e.getMessage());
+                return;
+            }
+
             if (room == null) {
                 System.out.println("Room Error! Room does not exist.");
                 return;
             }
 
-            // Get the room ID from the selected room
-            int roomID = room.getRoomID();
-
             // Debugging: Print room details
-            System.out.println("Booking Room ID: " + roomID);  // Added debug statement
+            System.out.println("Selected Room Name: " + selectedRoom.getRoomName());
+            System.out.println("Retrieved Room Name: " + room.getRoomName());
+            System.out.println("Booking Room ID: " + room.getRoomID());
+            System.out.println("Booking Room Capacity: " + room.getCapacity());
 
-            // Add the booking
-            bookingDAO.addBooking(roomID, user.getUserID(), new java.util.Date(), Time.valueOf(startTime + ":00"), Time.valueOf(endTime + ":00"), title);
+            // Add the booking and increment room usage
+            bookingDAO.addBooking(room.getRoomID(), user.getUserID(), new java.util.Date(), Time.valueOf(startTime + ":00"), Time.valueOf(endTime + ":00"), title);
 
             System.out.println("Booking Success! Booking successfully created.");
         } catch (SQLException e) {
             System.out.println("Database Error! Error while booking the room: " + e.getMessage());
         }
     }
+
+
 }
 
 
