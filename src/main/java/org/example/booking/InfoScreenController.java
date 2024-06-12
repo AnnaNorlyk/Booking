@@ -28,8 +28,7 @@ public class InfoScreenController {
     private TableColumn<Room, String> roomNameColumn;
     @FXML
     private TableColumn<Room, Integer> refreshmentsColumn;
-    @FXML
-    private TableColumn<Room, Integer> capacityColumn;
+
     @FXML
     private TableColumn<Room, String> titleColumn;
     @FXML
@@ -98,17 +97,21 @@ public class InfoScreenController {
     private void populateTableView() {
         BookingDAO bookdao = new BookingDAO();
         try {
+            // Retrieve rooms from the database
             bookdao.getThoseRooms();
             List<Room> rooms = bookdao.getRooms();
 
-            // Clear the table view and add the updated list of rooms
+            // Clear the existing items in the TableView
             displayBookingsTable.getItems().clear();
+
+            // Add the retrieved rooms to the TableView
             displayBookingsTable.getItems().addAll(rooms);
 
-            // Refresh the TableView
+            // Refresh the TableView to reflect the changes
             displayBookingsTable.refresh();
         } catch (Exception e) {
-            System.out.println("error");
+            // Print a meaningful error message in case of an exception
+            System.out.println("Error populating TableView: " + e.getMessage());
         }
     }
 }

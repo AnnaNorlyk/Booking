@@ -19,19 +19,57 @@ public class BookingDAO {
 
         try {
             connection = DatabaseConnection.getConnection();
-            String query = "SELECT fldUserID FROM tblUser WHERE fldUsername = ?";
+            String query = "SELECT fldActualname FROM tblUser WHERE fldUsername = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                userId = resultSet.getInt("fldUserID");
+                userId = resultSet.getInt("fldActualname");
             }
         } catch (SQLException e) {
             System.err.println("error");
         }
         return userId;
     }
+
+    // gets the info for the infoscreen "rooms"
+    public void getThoseRooms() {
+        Connection connection = null;
+        CallableStatement callableStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "{call spGetAllBookrooms}";
+            callableStatement = connection.prepareCall(query);
+            resultSet = callableStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int roomID = resultSet.getInt("fldRoomID");
+                String roomName = resultSet.getString("fldRoomName");
+                int capacity = resultSet.getInt("fldCapacity");
+                String facilities = resultSet.getString("fldFacilities");
+                int roomUsage = resultSet.getInt("fldRoomUsage");
+                String startTime = resultSet.getTime("fldStartTime") != null ? resultSet.getTime("fldStartTime").toString() : "";
+                String endTime = resultSet.getTime("fldEndTime") != null ? resultSet.getTime("fldEndTime").toString() : "";
+                String timeRange = startTime.isEmpty() || endTime.isEmpty() ? "" : startTime + " - " + endTime;
+                String title = resultSet.getString("fldTitle");
+                int refreshments = resultSet.getInt("fldRefreshments");
+                int userID = resultSet.getInt("fldUserID");
+                String issueDescription = resultSet.getString("fldDescription");
+                String actualName = resultSet.getString("fldActualName");
+
+                Room room = new Room(roomID, roomName, capacity, facilities, roomUsage, timeRange, title, refreshments, userID, "", issueDescription, actualName);
+
+                rooms.add(room);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+
 
 
     public List<String> getAllRoomNames() throws SQLException {
@@ -104,41 +142,7 @@ public class BookingDAO {
 
 
 
-    // gets the info for the infoscreen "rooms"
-    public void getThoseRooms() {
-        Connection connection = null;
-        CallableStatement callableStatement = null;
-        ResultSet resultSet = null;
 
-        try {
-            connection = DatabaseConnection.getConnection();
-            String query = "{call spGetAllBookrooms}"; // the storedprocedure needs to be changed so only non-booked rooms will show (???no Only BOOKED rooms should show)
-            callableStatement = connection.prepareCall(query);
-            resultSet = callableStatement.executeQuery();
-
-            while (resultSet.next()) {
-                int roomID = resultSet.getInt("fldRoomID");
-                String roomName = resultSet.getString("fldRoomName");
-                int capacity = resultSet.getInt("fldCapacity");
-                String facilities = resultSet.getString("fldFacilities");
-                int roomUsage = resultSet.getInt("fldRoomUsage");
-                String startTime = resultSet.getTime("fldStartTime") != null ? resultSet.getTime("fldStartTime").toString() : "";
-                String endTime = resultSet.getTime("fldEndTime") != null ? resultSet.getTime("fldEndTime").toString() : "";
-                String timeRange = startTime.isEmpty() || endTime.isEmpty() ? "" : startTime + " - " + endTime;
-                String title = resultSet.getString("fldTitle");
-                int refreshments = resultSet.getInt("fldRefreshments");
-                int userID = resultSet.getInt("fldUserID");
-                String issueDescription = resultSet.getString("fldDescription");
-                String userName = resultSet.getString("flduserName");
-                String actualName = resultSet.getString("fldActualName");
-
-                Room room = new Room(roomID, roomName, capacity, facilities, roomUsage, timeRange, title, refreshments, userID, userName, issueDescription);
-                rooms.add(room);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
 
     public List<Room> getRooms() {
         return rooms;
@@ -306,7 +310,7 @@ public class BookingDAO {
                 String facilities = rs.getString("fldFacilities");
                 int roomUsage = rs.getInt("fldRoomUsage");
 
-                return new Room(roomID, name, capacity, facilities, roomUsage, "", "", 0, 0, "", "");
+                return new Room(roomID, name, capacity, facilities, roomUsage, "", "", 0, 0, "", "", "");
             } else {
                 return null;
             }

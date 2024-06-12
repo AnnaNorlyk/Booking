@@ -14,12 +14,12 @@ public class Room {
     private String userName;
     private String actualName;
 
-    public Room(int roomID, String name, int capacity, String facilities, int roomUsage) {
+    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage) {
         this.roomID = roomID;
+        this.roomName = roomName;
         this.capacity = capacity;
         this.facilities = facilities;
         this.roomUsage = roomUsage;
-
     }
 
 
@@ -31,22 +31,41 @@ public class Room {
 
     }
 
-
-
-    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage, String timeRange, String title, int refreshments, int userID, String userName, String issueDescription) {
+    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage, String timeRange, String title, int refreshments, int userID, String userName, String issueDescription, String actualName) {
         this.roomID = roomID;
         this.roomName = roomName;
         this.capacity = capacity;
         this.facilities = facilities;
         this.roomUsage = roomUsage;
         this.timeRange = timeRange;
+        this.issueDescription = issueDescription;
         this.refreshments = refreshments;
         this.userID = userID;
-        this.issueDescription = issueDescription;
         this.userName = userName;
+        this.actualName = actualName;
     }
 
 
+
+
+
+/*
+    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage, String timeRange, String issueDescription, String roomTitle, String refreshments, int userID, String userName, String actualName) {
+        this.roomID = roomID;
+        this.roomName = roomName;
+        this.capacity = capacity;
+        this.facilities = facilities;
+        this.roomUsage = roomUsage;
+        this.timeRange = timeRange;
+        this.issueDescription = issueDescription;
+        this.roomTitle = roomTitle;
+        this.refreshments = refreshments;
+        this.userID = userID;
+        this.userName = userName;
+        this.actualName = actualName;
+    }
+
+*/
     // Constructor for general room information
 
 
@@ -169,6 +188,13 @@ public class Room {
         this.userName = userName;
     }
 
+    public String getActualName() {
+        return actualName;
+    }
+
+    public void setActualName(String actualName) {
+        this.actualName = actualName;
+    }
 }
 
 
