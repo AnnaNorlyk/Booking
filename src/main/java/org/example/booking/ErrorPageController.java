@@ -1,31 +1,35 @@
+// ErrorPageController.java
 package org.example.booking;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class ErrorPageController {
+import java.util.List;
 
-    @FXML
-    private TextField roomField;
+public class ErrorPageController {
 
     @FXML
     private TextField descriptionField;
 
     @FXML
     private TextField uniloginField;
-    @FXML
-    private int issueID;
 
     @FXML
     private Button doneButton;
 
     @FXML
     private Button returnButton;
+
     @FXML
     private Label labelLabel;
 
+    @FXML
+    private ComboBox<String> roomComboBox;
 
     private BookingDAO bookingDAO;
 
@@ -37,30 +41,40 @@ public class ErrorPageController {
 
     @FXML
     private void initialize() {
-        // Any initialization code if needed
+        List<String> roomNames = bookingDAO.getAllRoomNames();
+        roomComboBox.setItems(FXCollections.observableArrayList(roomNames));
+        labelLabel.setVisible(false);
     }
 
     @FXML
     private void doneButtonaction() {
         try {
-            String room = roomField.getText();
+            String room = roomComboBox.getValue();
             String description = descriptionField.getText();
             String unilogin = uniloginField.getText();
-            Integer issueID = 1;
 
-            if (room.isEmpty() || description.isEmpty() || unilogin.isEmpty()) {
-                // Update label text to display error message
-                labelLabel.setText("Alle Felter skal være fyldt ud.");
+            if (room == null || room.isEmpty() || description.isEmpty() || unilogin.isEmpty()) {
+                setLabelText("Intast oplysninger");
+                labelLabel.setVisible(true);
                 return;
             }
 
-            bookingDAO.addIssue(issueID, room, description, unilogin);
+            bookingDAO.addIssue(room, description, unilogin);
+            labelLabel.setVisible(true);
+            setLabelText("Fejl oprettet.");
 
-            labelLabel.setText("Fejl oprettet.");
         } catch (Exception e) {
             e.printStackTrace();
-            // Update label text to display error message
-            labelLabel.setText("An error occurred while reporting the issue: " + e.getMessage());
+            labelLabel.setVisible(true);
+            setLabelText("Kæmpe Error");
+        }
+    }
+
+    private void setLabelText(String text) {
+        if (labelLabel != null) {
+            Platform.runLater(() -> labelLabel.setText(text));
+        } else {
+            System.err.println("error");
         }
     }
 

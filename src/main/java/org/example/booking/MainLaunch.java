@@ -61,7 +61,6 @@ public class MainLaunch extends Application {
         }
     }
 
-
     public void showErrorPage() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/booking/ErrorPage.fxml"));
@@ -75,8 +74,6 @@ public class MainLaunch extends Application {
             e.printStackTrace();
         }
     }
-
-
 
     public static void main(String[] args) {
         launch(args);

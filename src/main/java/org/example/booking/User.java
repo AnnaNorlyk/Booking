@@ -22,5 +22,4 @@ public class User {
     public String getUnilogin() {
         return unilogin;
     }
-
 }
