@@ -12,24 +12,17 @@ public class Room {
     private int refreshments;
     private int userID;
     private String userName;
+    private String actualName;
 
-    // Constructor for general room information
-    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage, String timeRange, String roomTitle, int refreshments, int userID, String userName, String issueDescription) {
+    public Room(int roomID, String name, int capacity, String facilities, int roomUsage) {
         this.roomID = roomID;
-        this.roomName = roomName;
         this.capacity = capacity;
         this.facilities = facilities;
         this.roomUsage = roomUsage;
-        this.timeRange = timeRange;
-        this.roomTitle = roomTitle;
-        this.refreshments = refreshments;
-        this.userID = userID;
-        this.userName = userName;
-        this.issueDescription = issueDescription;
+
     }
 
 
-    // Constructor for displaying available times in Availability
     public Room(int roomID, String roomName, String facilities, String timeRange) {
         this.roomID = roomID;
         this.roomName = roomName;
@@ -37,6 +30,25 @@ public class Room {
         this.timeRange = timeRange;
 
     }
+
+
+
+    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage, String timeRange, String title, int refreshments, int userID, String userName, String issueDescription) {
+        this.roomID = roomID;
+        this.roomName = roomName;
+        this.capacity = capacity;
+        this.facilities = facilities;
+        this.roomUsage = roomUsage;
+        this.timeRange = timeRange;
+        this.refreshments = refreshments;
+        this.userID = userID;
+        this.issueDescription = issueDescription;
+        this.userName = userName;
+    }
+
+
+    // Constructor for general room information
+
 
     //getters and setters
     public int getRoomID() {

@@ -1,15 +1,16 @@
 
 package org.example.booking;
-import java.time.LocalDate;
-import java.util.List;
 
-import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+
+import java.time.LocalDate;
+import java.util.List;
 
 
 public class InfoScreenController {
@@ -60,7 +61,7 @@ public class InfoScreenController {
         timeRangeColumn.setCellValueFactory(new PropertyValueFactory<>("timeRange"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("roomTitle"));
         ReportErrorColumn.setCellValueFactory(new PropertyValueFactory<>("issueDescription"));
-        responsibleColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        responsibleColumn.setCellValueFactory(new PropertyValueFactory<>("actualName"));
 
         // custom factory for refreshments
         refreshmentsColumn.setCellFactory(column -> new TextFieldTableCell<Room, Integer>() {

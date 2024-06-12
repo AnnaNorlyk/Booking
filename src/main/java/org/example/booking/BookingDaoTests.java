@@ -1,5 +1,4 @@
-import org.example.booking.DatabaseConnection;
-import org.example.booking.Room;
+package org.example.booking;
 
 import java.sql.*;
 import java.time.LocalDate;

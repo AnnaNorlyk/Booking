@@ -1,7 +1,6 @@
 package org.example.booking;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -85,7 +84,8 @@ public class BookingDetailsController {
             System.out.println("Room capacity: " + selectedRoom.getCapacity());
 
             // Split string into substrings to display in list
-            List<String> facilities = Arrays.asList(selectedRoom.getFacilities().split(","));
+            String facilitiesString = selectedRoom.getFacilities();
+            List<String> facilities = facilitiesString != null ? Arrays.asList(facilitiesString.split(",")) : new ArrayList<>();
             facilitiesListView.setItems(FXCollections.observableArrayList(facilities));
 
             // Convert SQL value of int to a string

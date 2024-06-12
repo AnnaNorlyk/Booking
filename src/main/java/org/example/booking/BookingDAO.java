@@ -130,6 +130,7 @@ public class BookingDAO {
                 int userID = resultSet.getInt("fldUserID");
                 String issueDescription = resultSet.getString("fldDescription");
                 String userName = resultSet.getString("flduserName");
+                String actualName = resultSet.getString("fldActualName");
 
                 Room room = new Room(roomID, roomName, capacity, facilities, roomUsage, timeRange, title, refreshments, userID, userName, issueDescription);
                 rooms.add(room);
