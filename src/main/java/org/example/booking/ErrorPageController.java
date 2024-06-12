@@ -9,7 +9,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class ErrorPageController {
@@ -43,11 +42,7 @@ public class ErrorPageController {
     @FXML
     private void initialize() {
         List<String> roomNames = null;
-        try {
-            roomNames = bookingDAO.getAllRoomNames();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        roomNames = bookingDAO.getAllRoomNames();
         roomComboBox.setItems(FXCollections.observableArrayList(roomNames));
         labelLabel.setVisible(false);
     }

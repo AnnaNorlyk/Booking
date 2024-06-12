@@ -72,22 +72,30 @@ public class BookingDAO {
 
 
 
-    public List<String> getAllRoomNames() throws SQLException {
+    public List<String> getAllRoomNames() {
         List<String> roomNames = new ArrayList<>();
-        Connection connection = DatabaseConnection.getConnection();
-        PreparedStatement preparedStatement = null;
+        Connection connection = null;
+        CallableStatement callableStatement = null;
         ResultSet resultSet = null;
 
         try {
-            String query = "SELECT roomName FROM rooms";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
+            // Establish a database connection
+            connection = DatabaseConnection.getConnection();
 
+            // Prepare the call to the stored procedure
+            String query = "{call spGetAllRoomNames}";
+            callableStatement = connection.prepareCall(query);
+
+            // Execute the stored procedure
+            resultSet = callableStatement.executeQuery();
+
+            // Process the results
             while (resultSet.next()) {
-                roomNames.add(resultSet.getString("roomName"));
+                roomNames.add(resultSet.getString("fldRoomName"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Handle any SQL exceptions
+            System.err.println("Error retrieving room names: " + e.getMessage());
         }
         return roomNames;
     }

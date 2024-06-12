@@ -9,7 +9,7 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
             <Button fx:id="returnButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Tilbage" />
-            <Label layoutX="571.0" layoutY="134.0" text="Label" textAlignment="CENTER">
+            <Label fx:id="labelLabel" layoutX="571.0" layoutY="134.0" text="Label" textAlignment="CENTER">
                <font>
                   <Font size="25.0" />
                </font></Label>
@@ -17,10 +17,10 @@
       </AnchorPane>
       <AnchorPane prefHeight="345.0" prefWidth="1200.0">
          <children>
-            <TextField fx:id="roomField" layoutX="600.0" layoutY="14.0" prefHeight="25.0" prefWidth="235.0" promptText="Lokale" />
             <TextField fx:id="descriptionField" layoutX="342.0" layoutY="67.0" prefHeight="224.0" prefWidth="496.0" promptText="Beskrivelse" />
             <TextField fx:id="uniloginField" layoutX="342.0" layoutY="14.0" prefHeight="25.0" prefWidth="235.0" promptText="Unilogin" />
             <Button fx:id="doneButton" layoutX="551.0" layoutY="306.0" mnemonicParsing="false" onAction="#doneButtonaction" text="Færdig" />
+            <ComboBox fx:id="roomComboBox" layoutX="605.0" layoutY="14.0" prefHeight="25.0" prefWidth="235.0" />
          </children>
       </AnchorPane>
    </children>
