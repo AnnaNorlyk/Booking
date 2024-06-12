@@ -14,13 +14,7 @@ public class Room {
     private String userName;
     private String actualName;
 
-    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage) {
-        this.roomID = roomID;
-        this.roomName = roomName;
-        this.capacity = capacity;
-        this.facilities = facilities;
-        this.roomUsage = roomUsage;
-    }
+
 
 
     public Room(int roomID, String roomName, String facilities, String timeRange) {
@@ -46,27 +40,6 @@ public class Room {
     }
 
 
-
-
-
-/*
-    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage, String timeRange, String issueDescription, String roomTitle, String refreshments, int userID, String userName, String actualName) {
-        this.roomID = roomID;
-        this.roomName = roomName;
-        this.capacity = capacity;
-        this.facilities = facilities;
-        this.roomUsage = roomUsage;
-        this.timeRange = timeRange;
-        this.issueDescription = issueDescription;
-        this.roomTitle = roomTitle;
-        this.refreshments = refreshments;
-        this.userID = userID;
-        this.userName = userName;
-        this.actualName = actualName;
-    }
-
-*/
-    // Constructor for general room information
 
 
     //getters and setters
