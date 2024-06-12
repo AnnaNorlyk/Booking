@@ -33,8 +33,31 @@ public class BookingDAO {
         return userId;
     }
 
+
+    public List<String> getAllRoomNames() throws SQLException {
+        List<String> roomNames = new ArrayList<>();
+        Connection connection = DatabaseConnection.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            String query = "SELECT roomName FROM rooms";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                roomNames.add(resultSet.getString("roomName"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return roomNames;
+    }
+
+
+
     // adds issue
-    public void addIssue(int issueID,String roomName, String description, String unilogin) {
+    public void addIssue(String roomName, String description, String unilogin) {
         try (Connection connection = DatabaseConnection.getConnection();
              CallableStatement callableStatement = connection.prepareCall("{call spInsertErrorReport(?, ?, ?)}")) {
 
@@ -42,7 +65,6 @@ public class BookingDAO {
             int userId = getUserIdByUsername(unilogin);
 
             // Set the parameters for the stored procedure
-            callableStatement.setInt(1, issueID);
             callableStatement.setString(1, roomName);
             callableStatement.setString(2, description);
             callableStatement.setString(3, unilogin);
