@@ -1,4 +1,3 @@
-
 package org.example.booking;
 
 import java.sql.*;
@@ -85,9 +84,15 @@ public class BookingDAO {
 
     // gets the info for the infoscreen "rooms"
     public void getThoseRooms() {
-        try (Connection connection = DatabaseConnection.getConnection();
-             CallableStatement callableStatement = connection.prepareCall("{call spGetAllBookrooms}");
-             ResultSet resultSet = callableStatement.executeQuery()) {
+        Connection connection = null;
+        CallableStatement callableStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            String query = "{call spGetAllBookrooms}"; // the storedprocedure needs to be changed so only non-booked rooms will show (???no Only BOOKED rooms should show)
+            callableStatement = connection.prepareCall(query);
+            resultSet = callableStatement.executeQuery();
 
             while (resultSet.next()) {
                 int roomID = resultSet.getInt("fldRoomID");
@@ -104,14 +109,7 @@ public class BookingDAO {
                 String issueDescription = resultSet.getString("fldDescription");
                 String userName = resultSet.getString("flduserName");
 
-              //creates the rooms
-                Room room = new Room(roomID, roomName, title, capacity, facilities, issueDescription, userName);
-                room.setTimeRange(timeRange);
-                room.setRefreshments(refreshments);
-                room.setUserID(userID);
-                room.setIssueDescription(issueDescription);
-
-                // adds the room to the list
+                Room room = new Room(roomID, roomName, capacity, facilities, roomUsage, timeRange, title, refreshments, userID, userName, issueDescription);
                 rooms.add(room);
             }
         } catch (SQLException e) {
@@ -119,36 +117,38 @@ public class BookingDAO {
         }
     }
 
-
-
-
-
-
-
-
     public List<Room> getRooms() {
         return rooms;
     }
 
-
-
-    public List<Room> getRoomAvailability(int roomId) {
+    /**
+     * Retrieves a list of all available time slots for all rooms.
+     *
+     * This method calls a stored procedure named 'GetAllAvailableTimeSlots' that takes the current date as a parameter
+     * and returns all available time slots. The time slots are formatted and stored in Room objects, then returned in a list.
+     *
+     * @return A list of Room objects, each containing room details and available time slots formatted as "HH:mm - HH:mm".
+     */
+    public List<Room> getAllAvailableTimeSlots() {
         List<Room> rooms = new ArrayList<>();
-        LocalDate today = LocalDate.now(); // Converts LocalDate into Date
-        String sql = "{CALL GetAvailableTimeSlots(?, ?)}"; // Calling stored procedure
+        LocalDate today = LocalDate.now();
+        String sql = "{CALL GetAllAvailableTimeSlots(?)}"; // Calling stored procedure
 
-        // Formatter to convert SQL Time to "hour:minute" format
+        //Sets formatter to hh:mm instead of hh:mm:ss
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
         try (Connection connection = DatabaseConnection.getConnection();
              CallableStatement stmt = connection.prepareCall(sql)) {
 
+            // Sets date to the current day and room ID
             stmt.setDate(1, Date.valueOf(today));
-            stmt.setInt(2, roomId);
             ResultSet rs = stmt.executeQuery();
 
+            //Retrieves info based on parameter
             while (rs.next()) {
-                // Retrieve and format start and end times
+                int roomID = rs.getInt("fldRoomID");
+                String roomName = rs.getString("fldRoomName");
+                String facilities = rs.getString("fldFacilities");
                 Time startTimeSql = rs.getTime("fldStartTime");
                 Time endTimeSql = rs.getTime("fldEndTime");
 
@@ -157,21 +157,138 @@ public class BookingDAO {
                 String endTime = timeFormatter.format(endTimeSql.toLocalTime());
                 String timeRange = startTime + " - " + endTime;
 
-                // Create new Room object and add to the list
-                Room room = new Room(
-                        rs.getString("fldRoomName"),
-                        rs.getString("fldFacilities"),
-                        timeRange
-                );
+                //Creates Room object and adds to list
+                Room room = new Room(roomID, roomName, facilities, timeRange);
                 rooms.add(room);
             }
         } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error in BookingDAO: " + e.getMessage());
         }
         return rooms;
     }
 
+
+    /**
+     * Retrieves a list of available time slots for a room by its name.
+     *
+     * This method calls a stored procedure named 'GetAllAvailableTimeSlots' that takes the current today's date as a parameter
+     * and returns all available time slots for rooms. The method filters these time slots to return only those for the specified room.
+     *
+     * @param roomName Name of the room from which available timeslots are being retrieved
+     * @return A list of available time slots formatted as strings in "HH:mm" format.
+     */
+    public List<String> getRoomTimeSlots(String roomName) {
+            List<String> timeSlots = new ArrayList<>();
+            LocalDate today = LocalDate.now();
+            String sql = "{CALL GetAllAvailableTimeSlots(?)}";
+
+            //Sets timeformatter
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+
+            //Sets date parameter for stored procedure
+            stmt.setDate(1, Date.valueOf(today));
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String selectedRoom = rs.getString("fldRoomName");
+                if (selectedRoom.equals(roomName)) {
+                    Time SQLStartTime = rs.getTime("fldStartTime");
+
+                    //Formats the time retrieved into hh:mm format and adds to the timeSlots list
+                    String startTime = timeFormatter.format(SQLStartTime.toLocalTime());
+                    timeSlots.add(startTime);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in BookingDAO: " + e.getMessage());
+        }
+    return timeSlots;
+    }
+
+    public User getUserDetailsByUnilogin(String unilogin) throws SQLException {
+        String sql = "{CALL GetUserDetailsByUnilogin(?, ?, ?, ?)}";
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+            //Input
+            stmt.setString(1, unilogin);
+
+            //Output
+            stmt.registerOutParameter(2, Types.INTEGER);
+            stmt.registerOutParameter(3, Types.VARCHAR);
+            stmt.registerOutParameter(4, Types.VARCHAR);
+            stmt.execute();
+
+            //Retrieve the output
+            int userID = stmt.getInt(2);
+            String userName = stmt.getString(3);
+            String retrievedUnilogin = stmt.getString(4);
+
+            return new User(userID, userName, retrievedUnilogin);
+        }
+    }
+
+    public void addBooking(int roomID, int userID, java.util.Date date, Time startTime, Time endTime, String title) throws SQLException {
+        String sql = "{CALL AddBooking(?, ?, ?, ?, ?, ?, ?)}";
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+
+            // Sets input parameters for stored procedure
+            stmt.setInt(1, roomID);
+            stmt.setInt(2, userID);
+            stmt.setDate(3, new Date(date.getTime()));
+            stmt.setTime(4, startTime);
+            stmt.setTime(5, endTime);
+            stmt.setString(6, title);
+            stmt.setInt(7, 0); // is set to 0 as refreshments will not be available for ad-hoc bookings
+            stmt.executeUpdate();
+
+            // Increment room usage count
+            incrementRoomUsage(roomID);
+        }
+    }
+
+    private void incrementRoomUsage(int roomID) throws SQLException {
+        String sql = "{CALL IncrementRoomUsage(?)}";
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+            stmt.setInt(1, roomID);
+            stmt.executeUpdate();
+        }
+    }
+
+    /**
+     * Retrieves a Room object from the database by its name.
+     *
+     * This method calls the stored procedure named 'GetRoomByName' that takes a room name as a parameter
+     * and returns the details of the room from the database.
+     *
+     * @param roomName The name of the room to be retrieved.
+     * @return A Room object containing the room details if found, otherwise null.
+     * @throws SQLException If a database access error occurs or the stored procedure fails.
+     */
+    public Room getRoomByName(String roomName) throws SQLException {
+        String sql = "{CALL GetRoomByName(?)}";
+        try (Connection connection = DatabaseConnection.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+            stmt.setString(1, roomName);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int roomID = rs.getInt("fldRoomID");
+                String name = rs.getString("fldRoomName");
+                int capacity = rs.getInt("fldCapacity");
+                String facilities = rs.getString("fldFacilities");
+                int roomUsage = rs.getInt("fldRoomUsage");
+
+                return new Room(roomID, name, capacity, facilities, roomUsage, "", "", 0, 0, "", "");
+            } else {
+                return null;
+            }
+        }
+    }
 
 
 

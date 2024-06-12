@@ -29,8 +29,9 @@ public class Room {
     }
 
 
-    //Constructor for displaying available times in Availablity
+    // Constructor for displaying available times in Availability
     public Room(int roomID, String roomName, String facilities, String timeRange) {
+        this.roomID = roomID;
         this.roomName = roomName;
         this.facilities = facilities;
         this.timeRange = timeRange;
