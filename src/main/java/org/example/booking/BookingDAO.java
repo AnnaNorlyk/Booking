@@ -69,6 +69,14 @@ public class BookingDAO {
         return rooms;
     }
 
+    /**
+     * Retrieves a list of all available time slots for all rooms.
+     *
+     * This method calls a stored procedure named 'GetAllAvailableTimeSlots' that takes the current date as a parameter
+     * and returns all available time slots. The time slots are formatted and stored in Room objects, then returned in a list.
+     *
+     * @return A list of Room objects, each containing room details and available time slots formatted as "HH:mm - HH:mm".
+     */
     public List<Room> getAllAvailableTimeSlots() {
         List<Room> rooms = new ArrayList<>();
         LocalDate today = LocalDate.now();
@@ -83,7 +91,7 @@ public class BookingDAO {
             stmt.setDate(1, Date.valueOf(today));
             ResultSet rs = stmt.executeQuery();
 
-            //Retrieves info base don parameter
+            //Retrieves info based on parameter
             while (rs.next()) {
                 int roomID = rs.getInt("fldRoomID");
                 String roomName = rs.getString("fldRoomName");
@@ -106,7 +114,15 @@ public class BookingDAO {
     }
 
 
-    //Method will retrieve timeslots available for room by name
+    /**
+     * Retrieves a list of available time slots for a room by its name.
+     *
+     * This method calls a stored procedure named 'GetAllAvailableTimeSlots' that takes the current today's date as a parameter
+     * and returns all available time slots for rooms. The method filters these time slots to return only those for the specified room.
+     *
+     * @param roomName Name of the room from which available timeslots are being retrieved
+     * @return A list of available time slots formatted as strings in "HH:mm" format.
+     */
     public List<String> getRoomTimeSlots(String roomName) {
             List<String> timeSlots = new ArrayList<>();
             LocalDate today = LocalDate.now();
@@ -189,7 +205,16 @@ public class BookingDAO {
         }
     }
 
-
+    /**
+     * Retrieves a Room object from the database by its name.
+     *
+     * This method calls the stored procedure named 'GetRoomByName' that takes a room name as a parameter
+     * and returns the details of the room from the database.
+     *
+     * @param roomName The name of the room to be retrieved.
+     * @return A Room object containing the room details if found, otherwise null.
+     * @throws SQLException If a database access error occurs or the stored procedure fails.
+     */
     public Room getRoomByName(String roomName) throws SQLException {
         String sql = "{CALL GetRoomByName(?)}";
         try (Connection connection = DatabaseConnection.getConnection();

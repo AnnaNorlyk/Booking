@@ -158,7 +158,7 @@ public class BookingDetailsController {
             String startTime = startTimeMenu.getValue();
             String endTime = endTimeMenu.getValue();
 
-            // Check if all required fields are filled
+            // Check if all required fields are filled (Except Name as that will be retrieved based on unilogin)
             if (selectedRoom == null || unilogin.isEmpty() || title.isEmpty() || startTime == null || endTime == null) {
                 System.out.println("Form Error! Please fill in all fields.");
                 return;
@@ -194,7 +194,7 @@ public class BookingDetailsController {
             System.out.println("Booking Room ID: " + room.getRoomID());
             System.out.println("Booking Room Capacity: " + room.getCapacity());
 
-            // Add the booking and increment room usage
+            // Adds the booking and increment room usage
             bookingDAO.addBooking(room.getRoomID(), user.getUserID(), new java.util.Date(), Time.valueOf(startTime + ":00"), Time.valueOf(endTime + ":00"), title);
 
             System.out.println("Booking Success! Booking successfully created.");
