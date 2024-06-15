@@ -34,6 +34,8 @@ public class BookingDAO {
     }
 
     // gets the info for the infoscreen "rooms"
+
+
     public void getThoseRooms() {
         Connection connection = null;
         CallableStatement callableStatement = null;
@@ -45,23 +47,25 @@ public class BookingDAO {
             callableStatement = connection.prepareCall(query);
             resultSet = callableStatement.executeQuery();
 
+            // Loop through each row in the ResultSet
             while (resultSet.next()) {
-                int roomID = resultSet.getInt("fldRoomID");
-                String roomName = resultSet.getString("fldRoomName");
-                int capacity = resultSet.getInt("fldCapacity");
-                String facilities = resultSet.getString("fldFacilities");
-                int roomUsage = resultSet.getInt("fldRoomUsage");
-                String startTime = resultSet.getTime("fldStartTime") != null ? resultSet.getTime("fldStartTime").toString() : "";
-                String endTime = resultSet.getTime("fldEndTime") != null ? resultSet.getTime("fldEndTime").toString() : "";
+                // Retrieve each column value using the correct column names
+                int roomID = resultSet.getInt("roomID");
+                String roomName = resultSet.getString("roomName");
+                int capacity = resultSet.getInt("capacity");
+                String facilities = resultSet.getString("facilities");
+                int roomUsage = resultSet.getInt("roomUsage");
+                String startTime = resultSet.getTime("startTime") != null ? resultSet.getTime("startTime").toString() : "";
+                String endTime = resultSet.getTime("endTime") != null ? resultSet.getTime("endTime").toString() : "";
                 String timeRange = startTime.isEmpty() || endTime.isEmpty() ? "" : startTime + " - " + endTime;
-                String title = resultSet.getString("fldTitle");
-                int refreshments = resultSet.getInt("fldRefreshments");
-                int userID = resultSet.getInt("fldUserID");
-                String issueDescription = resultSet.getString("fldDescription");
-                String actualName = resultSet.getString("fldActualName");
+                String title = resultSet.getString("roomTitle");
+                int refreshments = resultSet.getInt("refreshments");
+                int userID = resultSet.getInt("userID");
+                String issueDescription = resultSet.getString("issueDescription");
+                String actualName = resultSet.getString("userName");
 
-                Room room = new Room(roomID, roomName, capacity, facilities, roomUsage, timeRange, title, refreshments, userID, "", issueDescription, actualName);
-
+                // Construct Room object and add to the rooms list
+                Room room = new Room(roomID, roomName, capacity, facilities, roomUsage, timeRange, title, refreshments, userID, issueDescription, actualName);
                 rooms.add(room);
             }
         } catch (SQLException e) {
@@ -203,6 +207,7 @@ public class BookingDAO {
     }
 
 
+
     /**
      * Retrieves a list of available time slots for a room by its name.
      *
@@ -317,13 +322,15 @@ public class BookingDAO {
                 int capacity = rs.getInt("fldCapacity");
                 String facilities = rs.getString("fldFacilities");
                 int roomUsage = rs.getInt("fldRoomUsage");
+                String actualName = rs.getString("fldActualName");
 
-                return new Room(roomID, name, capacity, facilities, roomUsage, "", "", 0, 0, "", "", "");
+                return new Room(roomID, name, capacity, facilities, roomUsage, "", "", 0, 0, "", actualName);
             } else {
                 return null;
             }
         }
     }
+
 
 
 

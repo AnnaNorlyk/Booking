@@ -1,40 +1,40 @@
-
 package org.example.booking;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.time.LocalDate;
 import java.util.List;
 
-
-public class InfoScreenController {
+public class infoScreenController {
 
     private MainLaunch mainlaunch;
-
-
 
     @FXML
     private TableView<Room> displayBookingsTable;
 
     @FXML
     private TableColumn<Room, String> ReportErrorColumn;
+
     @FXML
     private TableColumn<Room, String> roomNameColumn;
-    @FXML
-    private TableColumn<Room, Integer> refreshmentsColumn;
 
     @FXML
     private TableColumn<Room, String> titleColumn;
+
     @FXML
     private TableColumn<Room, String> responsibleColumn;
+
     @FXML
     private TableColumn<Room, String> timeRangeColumn;
+
+    @FXML
+    private TableColumn<Room, Integer> refreshmentsColumn;
 
     @FXML
     private Label DateDisplay;
@@ -63,9 +63,9 @@ public class InfoScreenController {
         responsibleColumn.setCellValueFactory(new PropertyValueFactory<>("actualName"));
 
         // custom factory for refreshments
-        refreshmentsColumn.setCellFactory(column -> new TextFieldTableCell<Room, Integer>() {
+        refreshmentsColumn.setCellFactory(column -> new TableCell<Room, Integer>() {
             @Override
-            public void updateItem(Integer item, boolean empty) {
+            protected void updateItem(Integer item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null || item == 0) {
                     setText("");
@@ -76,9 +76,9 @@ public class InfoScreenController {
         });
 
         // custom factory for issues
-        ReportErrorColumn.setCellFactory(column -> new TextFieldTableCell<Room, String>() {
+        ReportErrorColumn.setCellFactory(column -> new TableCell<Room, String>() {
             @Override
-            public void updateItem(String item, boolean empty) {
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null || item.trim().isEmpty()) {
                     setText("");
@@ -91,26 +91,15 @@ public class InfoScreenController {
         populateTableView();
     }
 
-
-
-
     private void populateTableView() {
-        BookingDAO bookdao = new BookingDAO();
+        BookingDAO bookingDAO = new BookingDAO();
         try {
-            // Retrieve rooms from the database
-            bookdao.getThoseRooms();
-            List<Room> rooms = bookdao.getRooms();
-
-            // Clear the existing items in the TableView
+            bookingDAO.getThoseRooms();
+            List<Room> rooms = bookingDAO.getRooms();
             displayBookingsTable.getItems().clear();
-
-            // Add the retrieved rooms to the TableView
             displayBookingsTable.getItems().addAll(rooms);
-
-            // Refresh the TableView to reflect the changes
             displayBookingsTable.refresh();
         } catch (Exception e) {
-            // Print a meaningful error message in case of an exception
             System.out.println("Error populating TableView: " + e.getMessage());
         }
     }

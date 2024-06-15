@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class MainLaunch extends Application {
     private Stage primaryStage;
 
@@ -19,12 +21,15 @@ public class MainLaunch extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/booking/InfoScreen.fxml"));
             Parent root = loader.load();
-            InfoScreenController controller = loader.getController();
+
+            infoScreenController controller = loader.getController();
             controller.setMainApplication(this);
-            primaryStage.setScene(new Scene(root, 1200, 800));
+
+            Scene scene = new Scene(root, 1200, 800);
+            primaryStage.setScene(scene);
             primaryStage.setTitle("Infoscreen");
             primaryStage.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

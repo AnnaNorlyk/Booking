@@ -13,8 +13,7 @@ public class Room {
     private int userID;
     private String userName;
     private String actualName;
-
-
+    private String title;
 
 
     public Room(int roomID, String roomName, String facilities, String timeRange) {
@@ -25,20 +24,35 @@ public class Room {
 
     }
 
-    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage, String timeRange, String title, int refreshments, int userID, String userName, String issueDescription, String actualName) {
+    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage, String timeRange, String title, int refreshments, int userID, String issueDescription, String actualName, String name) {
         this.roomID = roomID;
         this.roomName = roomName;
         this.capacity = capacity;
         this.facilities = facilities;
         this.roomUsage = roomUsage;
         this.timeRange = timeRange;
-        this.issueDescription = issueDescription;
+        this.title = title;
         this.refreshments = refreshments;
         this.userID = userID;
-        this.userName = userName;
+        this.issueDescription = issueDescription;
         this.actualName = actualName;
     }
 
+
+    //roomnamelist
+    public Room(int roomID, String roomName, int capacity, String facilities, int roomUsage, String timeRange, String title, int refreshments, int userID, String issueDescription, String actualName) {
+        this.roomID = roomID;
+        this.roomName = roomName;
+        this.capacity = capacity;
+        this.facilities = facilities;
+        this.roomUsage = roomUsage;
+        this.timeRange = timeRange;
+        this.title = title;
+        this.refreshments = refreshments;
+        this.userID = userID;
+        this.issueDescription = issueDescription;
+        this.actualName = actualName;
+    }
 
 
 
