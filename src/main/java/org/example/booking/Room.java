@@ -13,7 +13,7 @@ public class Room {
     private int userID;
     private String userName;
     private String actualName;
-    private String title;
+
 
 
     public Room(int roomID, String roomName, String facilities, String timeRange) {
@@ -31,7 +31,7 @@ public class Room {
         this.facilities = facilities;
         this.roomUsage = roomUsage;
         this.timeRange = timeRange;
-        this.title = title;
+        this.roomTitle = title;
         this.refreshments = refreshments;
         this.userID = userID;
         this.issueDescription = issueDescription;
@@ -47,13 +47,20 @@ public class Room {
         this.facilities = facilities;
         this.roomUsage = roomUsage;
         this.timeRange = timeRange;
-        this.title = title;
+        this.roomTitle = title;
         this.refreshments = refreshments;
         this.userID = userID;
         this.issueDescription = issueDescription;
         this.actualName = actualName;
     }
 
+    public Room(int roomID, String name, int capacity, String facilities, int roomUsage) {
+        this.roomID = roomID;
+        this.roomName = name;
+        this.capacity = capacity;
+        this. facilities = facilities;
+        this.roomUsage = roomUsage;
+    }
 
 
     //getters and setters

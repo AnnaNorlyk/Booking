@@ -322,9 +322,9 @@ public class BookingDAO {
                 int capacity = rs.getInt("fldCapacity");
                 String facilities = rs.getString("fldFacilities");
                 int roomUsage = rs.getInt("fldRoomUsage");
-                String actualName = rs.getString("fldActualName");
 
-                return new Room(roomID, name, capacity, facilities, roomUsage, "", "", 0, 0, "", actualName);
+
+                return new Room(roomID, name, capacity, facilities, roomUsage);
             } else {
                 return null;
             }
