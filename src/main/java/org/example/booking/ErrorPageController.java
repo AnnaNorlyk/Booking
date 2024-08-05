@@ -31,7 +31,7 @@ public class ErrorPageController {
     @FXML
     private ComboBox<String> roomComboBox;
 
-    private BookingDAO bookingDAO;
+    private IBookingDAO bookingDAO;
 
     private MainLaunch mainLaunch;
 

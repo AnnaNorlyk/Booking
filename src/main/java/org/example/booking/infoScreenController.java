@@ -39,6 +39,8 @@ public class infoScreenController {
     @FXML
     private Label DateDisplay;
 
+    private IBookingDAO bookingDAO = (IBookingDAO) new BookingDAO(); // Initialize here
+
     public void setMainApplication(MainLaunch mainLaunch) {
         this.mainlaunch = mainLaunch;
     }
@@ -92,7 +94,6 @@ public class infoScreenController {
     }
 
     private void populateTableView() {
-        BookingDAO bookingDAO = new BookingDAO();
         try {
             bookingDAO.getThoseRooms();
             List<Room> rooms = bookingDAO.getRooms();

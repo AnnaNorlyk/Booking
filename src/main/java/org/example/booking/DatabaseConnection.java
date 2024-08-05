@@ -15,11 +15,15 @@ public class DatabaseConnection {
     // gets connection to database
     public static Connection getConnection() throws SQLException {
 
-        //Establish connection
-        connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        System.out.println("Connected to database");
-
-        return connection;
+        if (connection != null) {
+            System.out.println("no new connection instance has been made");
+            return connection;
+        } else {
+            //Establish connection
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            System.out.println("Connected to database");
+            return connection;
+        }
     }
 }
 

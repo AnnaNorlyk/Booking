@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingDAO {
+public class BookingDAO implements IBookingDAO {
 
     private List<Room> rooms = new ArrayList<>();
 
@@ -62,7 +62,8 @@ public class BookingDAO {
                 int refreshments = resultSet.getInt("refreshments");
                 int userID = resultSet.getInt("userID");
                 String issueDescription = resultSet.getString("issueDescription");
-                String actualName = resultSet.getString("userName");
+                String actualName = resultSet.getString("actualName");
+
 
                 // Construct Room object and add to the rooms list
                 Room room = new Room(roomID, roomName, capacity, facilities, roomUsage, timeRange, title, refreshments, userID, issueDescription, actualName);
